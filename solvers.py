@@ -1,4 +1,4 @@
-from src import *
+from metaheuristic import *
 
 def pso(n, my_func, bounds, dimension, max_nfe, w, c1, c2):
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
