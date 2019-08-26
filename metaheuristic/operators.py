@@ -7,9 +7,28 @@ def init_random(lb, ub, dimension):
     return np.random.uniform(lb, ub, dimension)
     
 ### SELECTION METHODS (INPUT) ###
+def select_random_exclusive(X, S1=None, S2=None, n=1):
+    if S1 is None:
+        S_new = np.array([np.random.choice(X, n, replace=False) for _ in range(len(X))])
+    elif S2 is None:
+        S_new = np.array([np.random.choice(X[X != s], 1, replace=False) for s in S1[:,0]])
+    else:
+        S_new = np.array([np.random.choice(X[[np.logical_and([X != s1], [X != s2])[0]]], 1, replace=False) for s1, s2 in zip(S1[:,0], S2[:,0])])
+    return S_new
+    
+def select_tournament_exclusive(X, S1=None, S2=None, n=1):
+    ''' Selects n exclusively candidate solutions from X for each Xi in X, through tournament of group size k
+    :param X: list of candidate solutions
+    :param n: the number of individuals selected
+    :param k: group size
+    :returns: A list of references of the selected candidate solutions. '''
+    S = [np.sort(r)[::-1][:n] for r in select_random_exclusive(X, S1, S2, k)]
+    return np.array(S)
+
 def select_random(X, n=1):
     ''' Selects n exclusively and randomly candidate solutions from X for each Xi in X
     :param X: list of candidate solutions
+    :param S: list of candidate solution already selected
     :param n: the number of individuals selected
     :returns: A list of references of the selected candidate solutions. '''
     S = [np.random.choice(X, n, replace=False) for _ in range(len(X))]
