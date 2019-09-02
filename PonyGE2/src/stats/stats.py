@@ -11,7 +11,7 @@ from utilities.stats.save_plots import save_plot_from_data, \
     save_pareto_fitness_plot
 from utilities.stats.file_io import save_stats_to_file, save_stats_headers, \
     save_best_ind_to_file, save_first_front_to_file
-from fitness.novelty import novelty
+# from fitness.novelty import novelty
 
 import datetime
 
