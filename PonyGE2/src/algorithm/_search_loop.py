@@ -9,35 +9,6 @@ from utilities.algorithm.initialise_run import pool_init
 import psutil
 import gc
 
-### log ###
-def write_log(file, generation, m, individuals):
-    output_list = []
-    output_list.append(generation)
-    output_list.append(m)
-    output_list.append(np.nanmedian([indv.fitness for indv in individuals]))
-    for indv in individuals:
-        output_list.append(indv.fitness)
-    file.write(",".join(map(str,output_list))+"\n")
-    file.flush()
-    
-    return
-    
-def write_best(generation, m, individuals):
-    file = open(params['FILE_PATH']+"/"+str(generation)+".txt", 'w')
-    output_list = []
-    output_list.append(generation)
-    output_list.append(m)
-    
-    best = max(individuals[1:])
-    output_list.append(best.fitness)
-    output_list.append(best.phenotype)    
-    
-    file.write(",".join(map(str,output_list))+"\n")
-    file.flush()
-    file.close()
-
-###    
-
 def search_loop():
     """
     This is a standard search process for an evolutionary algorithm. Loop over
@@ -46,9 +17,6 @@ def search_loop():
     :return: The final population after the evolutionary process has run for
     the specified number of generations.
     """
-    ### log
-    logf = open(params['FILE_PATH']+"/log.csv", 'w') 
-
 
     if params['MULTICORE']:
         # initialize pool once, if mutlicore is enabled
@@ -76,16 +44,11 @@ def search_loop():
 
         # New generation
         individuals = params['STEP'](individuals)
-        
-        ### log
-        write_log(logf, generation, params['M'], individuals)
-        print("generation ", generation, "/",params['GENERATIONS'], " finished at ",datetime.datetime.now()) #timestamp
 
     if params['MULTICORE']:
         # Close the workers pool (otherwise they'll live on forever).
         params['POOL'].close()
 
-    logf.close() ### log
     return individuals
 
 
