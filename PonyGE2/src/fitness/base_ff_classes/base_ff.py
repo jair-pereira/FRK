@@ -39,14 +39,20 @@ class base_ff:
             # FP err can happen through eg overflow (lots of pow/exp calls)
             # ZeroDiv can happen when using unprotected operators
             fitness = base_ff.default_fitness
-            
+
             # These individuals are valid (i.e. not invalids), but they have
             # produced a runtime error.
             ind.runtime_error = True
+
+            # Don't want to evaluate these in selection
+            ind.invalid = True
         
         except Exception as err:
             # Other errors should not usually happen (unless we have
             # an unprotected operator) so user would prefer to see them.
+            with open("FitnessErrorlog.txt", "a+") as elog:
+                elog.write(str(err) + "\n")
+                elog.write(ind.phenotype)
             print(err)
             raise
                 

@@ -5,73 +5,9 @@ from stats.stats import stats, get_stats
 from utilities.stats import trackers
 from operators.initialisation import initialisation
 from utilities.algorithm.initialise_run import pool_init
-import datetime # 190313 timestamp
 
-import numpy as np
-
-def set_M():
-    learning = params['LEARNING_METHOD']
-    gen      = params['GENERATIONS']
-    mult     = params['MULTIPLIER']
-
-    if learning == 'linear':
-        a = np.array([mult[0]/(10**i) for i in range(0, mult[1]+1, 1)])
-        b = np.arange(0, gen, gen/len(a)) + gen/len(a)
-        
-        mult = list(zip(a,b))
-        m = a[0]
-    elif learning == 'adaptative':
-        m = mult
-    elif learning == 'static':
-        m = mult
-    else:
-        m = 1
-            
-    params['MULTIPLIER'] = mult
-    params['M_aux']      = 0
-    params['M']          = m
-                
-def update_M(gen, individuals):
-    import numpy as np
-    
-    learning = params['LEARNING_METHOD']
-    ind      = params['M_aux']
-    mult     = params['MULTIPLIER']
-    threshold = params['MULT_T']
-
-    if learning == 'linear' and gen >= mult[ind][1]:
-        params['M_aux'] = ind + 1
-        params['M']     = mult[ind][0]
-        
-    elif learning == 'adaptative' and \
-        np.nanmedian([indv.fitness for indv in individuals]) >= threshold:
-        params['M'] /= 2
-        
-def write_log(file, generation, m, individuals):
-    output_list = []
-    output_list.append(generation)
-    output_list.append(m)
-    output_list.append(np.nanmedian([indv.fitness for indv in individuals]))
-    for indv in individuals:
-        output_list.append(indv.fitness)
-    file.write(",".join(map(str,output_list))+"\n")
-    file.flush()
-    
-    return
-    
-def write_best(generation, m, individuals):
-    file = open(params['FILE_PATH']+"/"+str(generation)+".txt", 'w')
-    output_list = []
-    output_list.append(generation)
-    output_list.append(m)
-    
-    best = max(individuals[1:])
-    output_list.append(best.fitness)
-    output_list.append(best.phenotype)    
-    
-    file.write(",".join(map(str,output_list))+"\n")
-    file.flush()
-    file.close()
+import psutil
+import gc
 
 def search_loop():
     """
@@ -81,9 +17,7 @@ def search_loop():
     :return: The final population after the evolutionary process has run for
     the specified number of generations.
     """
-    logf = open(params['FILE_PATH']+"/log.csv", 'w') #190312: log
-    set_M()#190307: our mod for learning multiplier
-    
+
     if params['MULTICORE']:
         # initialize pool once, if mutlicore is enabled
         params['POOL'] = Pool(processes=params['CORES'], initializer=pool_init,
@@ -97,29 +31,37 @@ def search_loop():
 
     # Generate statistics for run so far
     get_stats(individuals)
-    write_log(logf, 0, params['M'], individuals )#190312: log
-    #write_best(0, params['M'], individuals)
-    
+
+    # Set the max size of the cache
+    set_max_cache_size(individuals)
+
     # Traditional GE
     for generation in range(1, (params['GENERATIONS']+1)):
+        # print("Generation is: " + str(generation))
+        # print("Available memory is: " + str(psutil.virtual_memory().available))
+
         stats['gen'] = generation
 
-        update_M(generation, individuals) # 190307: our mod for learning multiplier
-        
         # New generation
         individuals = params['STEP'](individuals)
-        
-        write_log(logf, generation, params['M'], individuals)#190312: log
-        #write_best(generation, params['M'], individuals)
-        print("generation ", generation, "/",params['GENERATIONS'], " finished at ",datetime.datetime.now())# 190313: timestamp
 
     if params['MULTICORE']:
         # Close the workers pool (otherwise they'll live on forever).
         params['POOL'].close()
 
-    logf.close()    
-     
     return individuals
+
+
+def set_max_cache_size(individuals):
+    mem_per_cpu = psutil.virtual_memory().available / psutil.cpu_count()
+    size_of_all_ind = 0
+    for ind in individuals:
+        size_of_all_ind += ind.get_mem_size() * 2
+    avg_ind_size = size_of_all_ind / len(individuals)
+    max_inds_fit_mem = mem_per_cpu / avg_ind_size
+    cache_size = round(max_inds_fit_mem / 3)
+    trackers.max_cache_size = cache_size
+    # print("Max cache size is: " + str(cache_size))
 
 
 def search_loop_from_state():

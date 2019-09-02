@@ -291,6 +291,8 @@ def pi_grow(tree, max_depth):
     # encounter each node.
     genome = []
 
+    # Since we are working from phenotype to genotype, must initialize with predefined
+    symbol_dic = {'<predefined>': 1}
     while queue:
         # Loop until no items remain in the queue.
 
@@ -360,6 +362,11 @@ def pi_grow(tree, max_depth):
 
             if symbol["type"] == "NT":
                 # The symbol is a non-terminal.
+                current_symbol = symbol["symbol"]
+                if current_symbol not in symbol_dic:
+                    symbol_dic[current_symbol] = 1
+                else:
+                    symbol_dic[current_symbol] += 1
     
                 # Check whether child is recursive
                 recur_child = ret_true(params['BNF_GRAMMAR'].non_terminals
@@ -373,5 +380,4 @@ def pi_grow(tree, max_depth):
     _, output, invalid, depth, \
     nodes = tree.get_tree_info(params['BNF_GRAMMAR'].non_terminals.keys(),
                                [], [])
-    
-    return genome, output, nodes, depth
+    return genome, output, nodes, depth, symbol_dic

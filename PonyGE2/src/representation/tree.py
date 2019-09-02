@@ -115,6 +115,19 @@ class Tree:
 
         return same
 
+    def get_memory_size(self):
+        import sys
+        tree_size = 0
+        tree_size += sys.getsizeof(self.parent)
+        tree_size += sys.getsizeof(self.codon)
+        tree_size += sys.getsizeof(self.depth)
+        tree_size += sys.getsizeof(self.root)
+        tree_size += sys.getsizeof(self.snippet)
+        for child in self.children:
+            tree_size += child.get_memory_size()
+
+        return tree_size
+
     def get_target_nodes(self, array, target=None):
         """
         Returns the all NT nodes which match the target NT list in a

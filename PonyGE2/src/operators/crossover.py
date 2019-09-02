@@ -1,9 +1,11 @@
 from random import randint, random, sample, choice
 
 from algorithm.parameters import params
+from algorithm.mapper import map_tree_from_genome
 from representation import individual
 from representation.latent_tree import latent_tree_crossover, latent_tree_repair
 from utilities.representation.check_methods import check_ind
+from utilities.fitness.math_functions import sample_guassian
 
 
 def crossover(parents):
@@ -20,23 +22,26 @@ def crossover(parents):
 
     # Initialise an empty population.
     cross_pop = []
-    
+
+    breakout_counter = 0
     while len(cross_pop) < params['GENERATION_SIZE']:
-        
         # Randomly choose two parents from the parent population.
         inds_in = sample(parents, 2)
 
         # Perform crossover on chosen parents.
         inds_out = crossover_inds(inds_in[0], inds_in[1])
-        
+
+        if breakout_counter > 500:
+            inds_out = [inds_in[0], inds_in[1]]
+
         if inds_out is None:
             # Crossover failed.
-            pass
-        
+            breakout_counter += 1
+
         else:
-                        
             # Extend the new population.
             cross_pop.extend(inds_out)
+            breakout_counter = 0
 
     return cross_pop
 
@@ -336,10 +341,14 @@ def subtree(p_0, p_1):
         # labels.
         shared_nodes = [i for i in shared_nodes if i in params[
             'BNF_GRAMMAR'].non_terminals]
-        
+
         return sorted(shared_nodes)
 
-    if random() > params['CROSSOVER_PROBABILITY']:
+    cross_prob = params['CROSSOVER_PROBABILITY']
+    if params['CROSSOVER_GAUSSIAN']:
+        cross_prob = sample_guassian(params['CROSSOVER_PROBABILITY'], .1)
+
+    if random() > cross_prob:
         # Crossover is not to be performed, return entire individuals.
         ind0 = p_1
         ind1 = p_0
@@ -362,22 +371,27 @@ def subtree(p_0, p_1):
         else:
             # Save tail of each genome.
             tail_1 = p_1.genome[p_1.used_codons:]
-        
+
+        # Calculate tree as they are not stored
+        p_0_tree = map_tree_from_genome(p_0.genome)[2]
+        p_1_tree = map_tree_from_genome(p_1.genome)[2]
+
+
         # Get the set of labels of non terminals for each tree.
-        labels1 = p_0.tree.get_node_labels(set())
-        labels2 = p_1.tree.get_node_labels(set())
+        labels1 = p_0_tree.get_node_labels(set())
+        labels2 = p_1_tree.get_node_labels(set())
 
         # Find overlapping non-terminals across both trees.
         shared_nodes = intersect(labels1, labels2)
 
         if len(shared_nodes) != 0:
             # There are overlapping NTs, cross over parts of trees.
-            ret_tree0, ret_tree1 = do_crossover(p_0.tree, p_1.tree,
+            ret_tree0, ret_tree1 = do_crossover(p_0_tree, p_1_tree,
                                                 shared_nodes)
         
         else:
             # There are no overlapping NTs, cross over entire trees.
-            ret_tree0, ret_tree1 = p_1.tree, p_0.tree
+            ret_tree0, ret_tree1 = p_1_tree, p_0_tree
         
         # Initialise new individuals using the new trees.
         ind0 = individual.Individual(None, ret_tree0)
