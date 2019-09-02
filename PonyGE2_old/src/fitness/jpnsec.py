@@ -2,7 +2,7 @@ from algorithm.parameters import params
 from fitness.base_ff_classes.base_ff import base_ff
 import numpy as np
 from math import *
-import src
+import metaheuristic
 import cocoex, cocopp  # bbob experimentation and post-processing modules
 import pickle
 from stats.stats import stats, get_stats # for our convenience 
