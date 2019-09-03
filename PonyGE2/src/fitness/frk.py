@@ -2,12 +2,8 @@ from algorithm.parameters import params
 from fitness.base_ff_classes.base_ff import base_ff
 import numpy as np
 from math import *
-import metaheuristic
-#import cocoex, cocopp  # bbob experimentation and post-processing modules
-import pickle
-from stats.stats import stats, get_stats # for our convenience
 
-class test(base_ff):
+class frk(base_ff):
 
     maximise = False
 
@@ -21,4 +17,16 @@ class test(base_ff):
         # inside an empty dict for safety.
         p, d = ind.phenotype, {}
 
-        return 1
+        # Exec the phenotype.
+        try:
+            exec(p, d)
+        except Exception as err:
+            print(p)
+            print(err)
+            raise err
+
+        # Get the output
+        s = d['XXX_output_XXX']  # this is the program's output: a number.
+
+
+        return s
