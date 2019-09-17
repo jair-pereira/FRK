@@ -5,8 +5,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from solvers import de
 
 nfe = 1e+6
-suite = cocoex.Suite("bbob", "", "function_indices:17 dimensions:2 instance_indices:2")
-n, beta, pr = 1600, 1.79, 0.15
+suite = cocoex.Suite("bbob", "", "function_indices:1 dimensions:5 instance_indices:2")
+n, beta, pr = 1600, 1.52, 0.89
 
 # print(suite)
 # print(nfe, n, w, c1, c2)
