@@ -2,10 +2,10 @@ import numpy as np
 import cocoex, cocopp
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from solvers import f1702, f1705
+from solvers import f0202, f0205
 
 nfe = 1e+6
-suite = cocoex.Suite("bbob", "", "function_indices:1 dimensions:2 instance_indices:2")
+suite = cocoex.Suite("bbob", "", "function_indices:2 dimensions:2 instance_indices:2")
 
 for reps in range(10):
     for problem in suite:
