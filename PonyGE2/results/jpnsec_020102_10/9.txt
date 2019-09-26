@@ -1,0 +1,32 @@
+Generation:
+9
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_random
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_random(U, 1)
+    S2 = op.select_tournament(X, n=1, k=int(n*0.25))
+    U  = op.w_crx_blend2(S1, S2, alpha=0.50)
+    X  = U
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(200, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[581, 899, 60, 129, 548, 696, 820, 348, 751, 887, 163, 772, 454, 680, 273, 972, 923, 210, 35, 35, 578, 554, 57, 454, 9, 924, 306, 11, 618, 639, 319, 682, 846]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_random> op.repair_random)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<last_step> S1 =  (<select> (<select_random> op.select_random( (<X_or_U> U) , 1))) {::}S2 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> X) , n=1, k= (<k> int(n*0.25)) ))) {::}U  =  (<operator2> (<op_crx_blend> op.w_crx_blend2(S1, S2, alpha= (<alpha> 0.50) ))) {::}X  =  (<output_last> (<update_all> U)) {::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 200) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+-209.88

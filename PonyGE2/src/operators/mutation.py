@@ -1,7 +1,6 @@
 from random import randint, random, choice
 
 from algorithm.parameters import params
-from algorithm.mapper import map_tree_from_genome
 from representation import individual
 from representation.derivation import generate_tree
 from representation.latent_tree import latent_tree_mutate, latent_tree_repair
@@ -34,11 +33,7 @@ def mutation(pop):
         # Check ind does not violate specified limits.
         check = check_ind(new_ind, "mutation")
 
-        breakout_count = 1
         while check:
-            if breakout_count > 500:
-                new_ind = ind
-                break
             # Perform mutation until the individual passes all tests.
 
             # If individual has no genome, default to subtree mutation.
@@ -51,7 +46,6 @@ def mutation(pop):
 
             # Check ind does not violate specified limits.
             check = check_ind(new_ind, "mutation")
-            breakout_count += 1
 
         # Append mutated individual to population.
         new_pop.append(new_ind)
@@ -155,19 +149,18 @@ def subtree(ind):
         # Find the list of nodes we can mutate from.
         targets = ind_tree.get_target_nodes([], target=params[
                                           'BNF_GRAMMAR'].non_terminals)
+
         # Pick a node.
-        max_depth = 0
-        while max_depth is not None and max_depth == 0:
-            new_tree = choice(targets)
+        new_tree = choice(targets)
 
-            # Set the depth limits for the new subtree.
-            if params['MAX_TREE_DEPTH']:
-                # Set the limit to the tree depth.
-                max_depth = params['MAX_TREE_DEPTH'] - new_tree.depth
+        # Set the depth limits for the new subtree.
+        if params['MAX_TREE_DEPTH']:
+            # Set the limit to the tree depth.
+            max_depth = params['MAX_TREE_DEPTH'] - new_tree.depth
 
-            else:
-                # There is no limit to tree depth.
-                max_depth = None
+        else:
+            # There is no limit to tree depth.
+            max_depth = None
 
         # Mutate a new subtree.
         generate_tree(new_tree, [], [], "random", 0, 0, 0, max_depth)
@@ -183,17 +176,11 @@ def subtree(ind):
         tail = ind.genome[ind.used_codons:]
 
     # Allows for multiple mutation events should that be desired.
-    # print("Original depth: " + str(ind.depth))
-    new_tree = map_tree_from_genome(ind.genome)[2]
-    # print(new_tree.get_tree_info(params['BNF_GRAMMAR'].non_terminals.keys(),[], [])[3])
     for i in range(params['MUTATION_EVENTS']):
-        # phenotype, genome, tree, nodes, invalid, depth, \
-        # used_codons = map_tree_from_genome(ind.genome)
-        # ind.tree = subtree_mutate(ind.tree)
-        new_tree = subtree_mutate(new_tree)
+        ind.tree = subtree_mutate(ind.tree)
 
     # Re-build a new individual with the newly mutated genetic information.
-    ind = individual.Individual(None, new_tree)
+    ind = individual.Individual(None, ind.tree)
 
     # Add in the previous tail.
     ind.genome = ind.genome + tail

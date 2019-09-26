@@ -1,0 +1,33 @@
+Generation:
+2
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_truncate
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_tournament(U, n=1, k=int(n*0.50))
+    U  = op.w_levy_flight(S1)
+    X  = op.replace_if_random(X, U)
+    #Round Drop
+    X = op.drop_worst(X, pr=1.00, k=int(n*0.75)) 
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(200, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[61, 867, 157, 313, 645, 108, 843, 544, 115, 799, 513, 382, 780, 455, 995, 427, 128, 989, 466, 402, 146, 349, 749, 920, 287, 933, 521, 656, 281, 28, 923, 854, 232, 486, 447, 552, 129, 404, 597, 258]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_truncate> op.repair_truncate)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<last_step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> U) , n=1, k= (<k> int(n*0.50)) ))) {::}U  =  (<operator1> (<op_cs> op.w_levy_flight(S1))) {::}X  =  (<output_last> (<update_better_than_random> op.replace_if_random(X, U))) {::})) {::}#Round Drop{::} (<drop> (<drop_worst> X = op.drop_worst(X, pr= (<pr> 1.00) , k= (<k> int(n*0.75)) ) {::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 200) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+-11.164531154905774

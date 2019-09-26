@@ -22,14 +22,18 @@ CROSSOVER:              subtree
 CROSSOVER_PROBABILITY:  0.75
 MUTATION:               subtree
 
-GENERATIONS:            6
-POPULATION_SIZE:        4
+GENERATIONS:            30
+POPULATION_SIZE:        30
 TOURNAMENT_SIZE:        4
 
 ##### HEURISTIC #####
 
-MAX_NFE:				1e+0
+MAX_NFE:				1e+4
 DIMENSIONS:				2
 FUNCTION:				'1'
 INSTANCE_INDICES:		'1'
 RUNS:					1
+
+LEARNING_METHOD:		static
+MULTIPLIER:             1e+1
+MULT_T:					0.8

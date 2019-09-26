@@ -1,0 +1,37 @@
+Generation:
+30
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_truncate
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_tournament(U, n=1, k=int(n*0.10))
+    S2 = op.select_current(X)
+    U  = op.w_crx_blend2(S1, S2, alpha=0.20)
+    X  = U
+    #Round 2
+    S1 = op.select_random(U, 1)
+    S2 = op.select_current(X)
+    U  = op.w_crx_uni2(S1, S2, pr=0.50)
+    X  = U
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(100, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[466, 924, 687, 996, 604, 286, 868, 691, 985, 653, 367, 866, 179, 614, 435, 165, 580, 844, 925, 886, 591, 252, 185, 50, 484, 608, 56, 868, 617, 459, 390, 623, 973, 127, 774, 553, 761, 2, 23, 990, 219, 165, 918, 12, 719, 220, 358, 985, 806]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_truncate> op.repair_truncate)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> U) , n=1, k= (<k> int(n*0.10)) ))) {::}S2 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}U  =  (<operator2> (<op_crx_blend> op.w_crx_blend2(S1, S2, alpha= (<alpha> 0.20) ))) {::}X  =  (<output> (<update_all> U)) {::}) {::}#Round 2{::} (<last_step> S1 =  (<select> (<select_random> op.select_random( (<X_or_U> U) , 1))) {::}S2 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}U  =  (<operator2> (<op_crx_uni> op.w_crx_uni2(S1, S2, pr= (<pr> 0.50) ))) {::}X  =  (<output_last> (<update_all> U)) {::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 100) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+79.48

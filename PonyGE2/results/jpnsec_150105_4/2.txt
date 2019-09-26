@@ -1,0 +1,34 @@
+Generation:
+2
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_random
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_tournament(X, n=1, k=int(n*0.75))
+    S2 = op.select_current(X)
+    U  = op.w_crx_exp2(S1, S2, pr=0.10)
+    X  = op.replace_if_best(X, U)
+    #Round Drop
+    X = op.drop_probability(X, pr=0.75)
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(200, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[413, 676, 544, 53, 753, 600, 466, 55, 236, 458, 52, 647, 970, 816, 709, 263, 940, 526, 356, 734, 868, 293, 765, 218, 77, 91, 731, 592, 787, 330, 794, 670, 844, 869, 623, 294]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_random> op.repair_random)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<last_step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> X) , n=1, k= (<k> int(n*0.75)) ))) {::}S2 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}U  =  (<operator2> (<op_crx_exp> op.w_crx_exp2(S1, S2, pr= (<pr> 0.10) ))) {::}X  =  (<output_last> (<update_best> op.replace_if_best(X, U))) {::})) {::}#Round Drop{::} (<drop> (<drop_random> X = op.drop_probability(X, pr= (<pr> 0.75) ){::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 200) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+1006.8953295975934

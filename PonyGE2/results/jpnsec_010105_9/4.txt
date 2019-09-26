@@ -1,0 +1,34 @@
+Generation:
+4
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_random
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_tournament(X, n=1, k=n)
+    S2 = op.select_current(X)
+    U  = op.w_crx_blend2(S1, S2, alpha=0.20)
+    X  = U
+    #Round Drop
+    X = op.drop_probability(X, pr=0.50)
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(200, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[655, 398, 372, 487, 361, 99, 595, 469, 17, 108, 11, 137, 785, 916, 33, 19, 382, 753, 367, 948, 588, 707, 868, 562, 47, 756, 573, 541, 386, 563, 349, 239, 570, 881, 854, 874, 701, 169, 360, 537, 322]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_random> op.repair_random)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<last_step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> X) , n=1, k= (<k> n) ))) {::}S2 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}U  =  (<operator2> (<op_crx_blend> op.w_crx_blend2(S1, S2, alpha= (<alpha> 0.20) ))) {::}X  =  (<output_last> (<update_all> U)) {::})) {::}#Round Drop{::} (<drop> (<drop_random> X = op.drop_probability(X, pr= (<pr> 0.50) ){::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 200) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+79.48000091674079

@@ -1,0 +1,38 @@
+Generation:
+3
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_random
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_current(X)
+    S2 = op.select_current(X)
+    U  = op.w_crx_exp2(S1, S2, pr=1.00)
+    X  = U
+    #Round 2
+    S1 = op.select_tournament(X, n=1, k=int(n*0.50))
+    U  = op.w_levy_flight(S1)
+    X  = U
+    #Round Drop
+    X = op.drop_worst(X, pr=0.10, k=n) 
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(200, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[403, 879, 804, 740, 847, 181, 628, 269, 556, 608, 338, 334, 642, 625, 42, 859, 884, 531, 966, 40, 813, 312, 351, 661, 912, 567, 841, 929, 702, 385, 965, 123, 658, 333, 86, 852, 333, 58, 481, 322, 258, 931, 514, 18, 349, 597, 658, 531, 845]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_random> op.repair_random)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<step> S1 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}S2 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}U  =  (<operator2> (<op_crx_exp> op.w_crx_exp2(S1, S2, pr= (<pr> 1.00) ))) {::}X  =  (<output> (<update_all> U)) {::}) {::}#Round 2{::} (<last_step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> X) , n=1, k= (<k> int(n*0.50)) ))) {::}U  =  (<operator1> (<op_cs> op.w_levy_flight(S1))) {::}X  =  (<output_last> (<update_all> U)) {::})) {::}#Round Drop{::} (<drop> (<drop_worst> X = op.drop_worst(X, pr= (<pr> 0.10) , k= (<k> n) ) {::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 200) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+-16.935249881841763

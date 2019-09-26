@@ -1,0 +1,33 @@
+Generation:
+1
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_random
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_tournament(U, n=1, k=int(n*0.50))
+    U  = op.w_levy_flight(S1)
+    X  = op.replace_if_random(X, U)
+    #Round Drop
+    X = op.drop_worst(X, pr=0.75, k=int(n*0.25)) 
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(400, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[757, 141, 488, 583, 919, 312, 966, 397, 709, 789, 795, 742, 570, 212, 570, 541, 817, 268, 284, 162, 75, 424, 199, 58, 14, 278, 20, 879, 198, 993, 166]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_random> op.repair_random)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<last_step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> U) , n=1, k= (<k> int(n*0.50)) ))) {::}U  =  (<operator1> (<op_cs> op.w_levy_flight(S1))) {::}X  =  (<output_last> (<update_better_than_random> op.replace_if_random(X, U))) {::})) {::}#Round Drop{::} (<drop> (<drop_worst> X = op.drop_worst(X, pr= (<pr> 0.75) , k= (<k> int(n*0.25)) ) {::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 400) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+-209.87559172983245

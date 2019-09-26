@@ -13,8 +13,6 @@ check_python_version()
 from multiprocessing import Pool
 from subprocess import call
 import sys
-from os import path, getcwd
-
 
 from algorithm.parameters import params, set_params
 from scripts.stats_parser import parse_stats_from_runs
@@ -44,7 +42,7 @@ def execute_runs():
     results = []
 
     # Initialise pool of workers.
-    pool = Pool(processes=max(1, params['CORES'] - 1))
+    pool = Pool(processes=params['CORES'])
 
     for run in range(params['RUNS']):
         # Execute a single evolutionary run.
@@ -77,42 +75,6 @@ def check_params():
               "line parameter `--runs`.")
 
 
-def testing():
-    """
-    A test function for running the experiment manager. Calls all functions.
-
-    :return: Nothing.
-    """
-
-    # Quick scrip to run multiple consecutive experiments
-    for x in range(10):
-        path_1 = path.join(getcwd(), "..", "parameters/progsys.txt")
-        new_string = ""
-        with open(path_1, 'r') as readf:
-            for line in readf:
-                if "NOVELTY_FACTOR" in line:
-                    line = "NOVELTY_FACTOR:         " + str(x) + "\n"
-                elif "EXPERIMENT_NAME" in line:
-                    line = "EXPERIMENT_NAME:        NoveltySearchLevi" + str(x) + "\n"
-                new_string += line
-
-        with open(path_1, "w") as writef:
-            writef.write(new_string)
-
-        # Setup run parameters.
-        set_params(sys.argv[1:], create_files=False)
-
-        # Check the correct parameters are set for this set of runs.
-        check_params()
-
-        # Execute multiple runs.
-        execute_runs()
-
-        # Save spreadsheets and all plots for all runs in the 'EXPERIMENT_NAME'
-        # folder.
-        parse_stats_from_runs(params['EXPERIMENT_NAME'])
-
-
 def main():
     """
     The main function for running the experiment manager. Calls all functions.
@@ -133,6 +95,6 @@ def main():
     # folder.
     parse_stats_from_runs(params['EXPERIMENT_NAME'])
 
+
 if __name__ == "__main__":
     main()
-    # testing()

@@ -1,0 +1,38 @@
+Generation:
+22
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_truncate
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_current(U)
+    S2 = op.select_random(X, 1)
+    U  = op.w_crx_blend2(S1, S2, alpha=0.50)
+    X  = op.replace_if_random(X, U)
+    #Round 2
+    S1 = op.select_tournament(U, n=1, k=int(n*0.25))
+    S2 = op.select_random(X, 1)
+    S3 = op.select_current(U)
+    U  = op.w_mut_de(S1, S2, S3, beta=0.50)
+    X  = U
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(100, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[380, 466, 117, 196, 486, 97, 757, 329, 761, 53, 669, 106, 102, 174, 544, 395, 46, 365, 206, 925, 492, 447, 356, 243, 278, 276, 242, 440, 867, 550, 790, 890, 951, 831, 820, 585, 3, 72, 569, 130, 4, 761, 904, 116, 897, 136, 330, 899, 639, 587]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_truncate> op.repair_truncate)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<step> S1 =  (<select> (<select_current> op.select_current( (<X_or_U> U) ))) {::}S2 =  (<select> (<select_random> op.select_random( (<X_or_U> X) , 1))) {::}U  =  (<operator2> (<op_crx_blend> op.w_crx_blend2(S1, S2, alpha= (<alpha> 0.50) ))) {::}X  =  (<output> (<update_better_than_random> op.replace_if_random(X, U))) {::}) {::}#Round 2{::} (<last_step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> U) , n=1, k= (<k> int(n*0.25)) ))) {::}S2 =  (<select> (<select_random> op.select_random( (<X_or_U> X) , 1))) {::}S3 =  (<select> (<select_current> op.select_current( (<X_or_U> U) ))) {::}U  =  (<operator3> (<op_mut_de> op.w_mut_de(S1, S2, S3, beta= (<beta> 0.50) ))) {::}X  =  (<output_last> (<update_all> U)) {::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 100) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+-16.9385820160661

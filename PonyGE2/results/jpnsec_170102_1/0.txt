@@ -1,0 +1,41 @@
+Generation:
+0
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_random
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_tournament(X, n=1, k=int(n*0.75))
+    U = op.w_levy_flight(S1)
+    X  = op.replace_if_random(X, U)
+    #Round 2
+    S1 = op.select_current(X)
+    S2 = op.select_current(U)
+    U  = op.w_crx_blend2(S1, S2, alpha=0.00)
+    X  = X
+    #Round 3
+    S1 = op.select_random(X, 1)
+    S2 = op.select_current(X)
+    U  = op.w_crx_blend2(S1, S2, alpha=0.50)
+    X  = U
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(50, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[164, 72, 172, 734, 218, 50, 240, 415, 710, 748, 670, 52, 820, 278, 978, 493, 317, 262, 534, 695, 590, 741, 684, 940, 12, 419, 555, 781, 489, 615, 912, 455, 860, 898, 747, 989, 935, 831, 132, 764, 700, 611, 762, 543, 732, 853, 18, 994, 466, 274, 668, 182, 680, 166, 946, 656, 299, 344, 489, 251, 269]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_random> op.repair_random)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> X) , n=1, k= (<k> int(n*0.75)) ))) {::}U =  (<operator1> (<op_cs> op.w_levy_flight(S1))) {::}X  =  (<output> (<update_better_than_random> op.replace_if_random(X, U))) {::}) {::}#Round 2{::} (<step> S1 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}S2 =  (<select> (<select_current> op.select_current( (<X_or_U> U) ))) {::}U  =  (<operator2> (<op_crx_blend> op.w_crx_blend2(S1, S2, alpha= (<alpha> 0.00) ))) {::}X  =  (<output> (<update_later> X)) {::}) {::}#Round 3{::} (<last_step> S1 =  (<select> (<select_random> op.select_random( (<X_or_U> X) , 1))) {::}S2 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}U  =  (<operator2> (<op_crx_blend> op.w_crx_blend2(S1, S2, alpha= (<alpha> 0.50) ))) {::}X  =  (<output_last> (<update_all> U)) {::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 50) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+-16.931553887504574

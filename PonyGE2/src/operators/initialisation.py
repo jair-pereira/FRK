@@ -7,6 +7,7 @@ from representation import individual
 from representation.derivation import generate_tree, pi_grow
 from representation.individual import Individual
 from representation.tree import Tree
+from representation.grammar import Grammar
 from representation.latent_tree import latent_tree_random_ind
 from scripts import GE_LR_parser
 from utilities.representation.python_filter import python_filter
@@ -16,7 +17,6 @@ def initialisation(size):
     """
     Perform selection on a population in order to select a population of
     individuals for variation.
-    
     :param size: The size of the required population.
     :return: A full population generated using the specified initialisation
     technique.
@@ -323,7 +323,7 @@ def generate_PI_ind_tree(max_depth):
     ind_tree = Tree(str(params['BNF_GRAMMAR'].start_rule["symbol"]), None)
 
     # Generate a tree
-    genome, output, nodes, depth, symbol_dic = pi_grow(ind_tree, max_depth)
+    genome, output, nodes, depth = pi_grow(ind_tree, max_depth)
 
     # Get remaining individual information
     phenotype, invalid, used_cod = "".join(output), False, len(genome)
@@ -339,7 +339,6 @@ def generate_PI_ind_tree(max_depth):
     # Set individual parameters
     ind.phenotype, ind.nodes = phenotype, nodes
     ind.depth, ind.used_codons, ind.invalid = depth, used_cod, invalid
-    ind.derivation = symbol_dic
 
     # Generate random tail for genome.
     ind.genome = genome + [randint(0, params['CODON_SIZE']) for

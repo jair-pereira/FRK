@@ -139,16 +139,15 @@ def generate_folders_and_files():
     if not path.isdir(params['FILE_PATH']):
         makedirs(params['FILE_PATH'])
 
-    if not path.isdir(path.join(params['FILE_PATH'],
-                                str(params['TIME_STAMP']))):
-        makedirs(path.join(params['FILE_PATH'],
-                        str(params['TIME_STAMP'])))
+    # if not path.isdir(path.join(params['FILE_PATH'],
+                                # str(params['TIME_STAMP']))):
+        # makedirs(path.join(params['FILE_PATH'],
+                        # str(params['TIME_STAMP'])))
 
-    params['FILE_PATH'] = path.join(params['FILE_PATH'],
-                                    str(params['TIME_STAMP']))
+    # params['FILE_PATH'] = path.join(params['FILE_PATH'],
+                                    # str(params['TIME_STAMP']))
 
     save_params_to_file()
-
 
 def save_params_to_file():
     """

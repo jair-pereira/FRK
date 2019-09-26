@@ -1,9 +1,8 @@
-import pandas as pd
+import numpy as np
 
 from algorithm.parameters import params
 from stats.stats import stats
-from utilities.stats.trackers import cache, runtime_error_cache, unique_ind_tracker
-from utilities.stats import trackers
+from utilities.stats.trackers import cache, runtime_error_cache
 
 
 def evaluate_fitness(individuals):
@@ -47,14 +46,14 @@ def evaluate_fitness(individuals):
             eval_ind = True
 
             # Valid individuals can be evaluated.
-            if params['CACHE'] and hash(ind.phenotype) in unique_ind_tracker:
+            if params['CACHE'] and ind.phenotype in cache:
                 # The individual has been encountered before in
                 # the utilities.trackers.cache.
 
-                if params['LOOKUP_FITNESS'] and ind.phenotype in cache:
+                if params['LOOKUP_FITNESS']:
                     # Set the fitness as the previous fitness from the
                     # cache.
-                    ind.fitness = cache[ind.phenotype]["fitness"]
+                    ind.fitness = cache[ind.phenotype]
                     eval_ind = False
 
                 elif params['LOOKUP_BAD_FITNESS']:
@@ -65,15 +64,9 @@ def evaluate_fitness(individuals):
                 elif params['MUTATE_DUPLICATES']:
                     # Mutate the individual to produce a new phenotype
                     # which has not been encountered yet.
-                    counter = 0
-                    orginal = ind
-                    while (not ind.phenotype) or hash(ind.phenotype) in unique_ind_tracker:
+                    while (not ind.phenotype) or ind.phenotype in cache:
                         ind = params['MUTATION'](ind)
                         stats['regens'] += 1
-                        counter += 1
-                        if counter > 1000:
-                            ind = orginal
-                            break
                     
                     # Need to overwrite the current individual in the pop.
                     individuals[name] = ind
@@ -91,21 +84,9 @@ def evaluate_fitness(individuals):
             # evaluated individual back into the population.
             individuals[ind.name] = ind
 
-            ind_dic = {}
-            ind_dic["fitness"] = ind.fitness
-            ind_dic["phenotype"] = ind.phenotype
-            ind_dic["genome"] = ind.genome
-            ind_dic["AST"] = ind.AST
-            ind_dic["derivation"] = ind.derivation
-
             # Add the evaluated individual to the cache.
-            if trackers.max_cache_size is None or trackers.max_cache_size > len(cache):
-                cache[ind.phenotype] = ind_dic
-            else:
-                cache.popitem(False)
-                cache[ind.phenotype] = ind_dic
-            trackers.unique_ind_tracker.add(hash(ind.phenotype))
-
+            cache[ind.phenotype] = ind.fitness
+        
             # Check if individual had a runtime error.
             if ind.runtime_error:
                 runtime_error_cache.append(ind.phenotype)
@@ -144,24 +125,11 @@ def eval_or_append(ind, results, pool):
             # The phenotype string of the individual does not appear
             # in the cache, it must be evaluated and added to the
             # cache.
-            ind_dic = {}
-            ind_dic["fitness"] = ind.fitness
-            ind_dic["phenotype"] = ind.phenotype
-            ind_dic["genome"] = ind.genome
-            ind_dic["AST"] = ind.AST
-            ind_dic["derivation"] = ind.derivation
-            ind_dic["output_cases"] = ind.test_cases
-
-
+            
             if (isinstance(ind.fitness, list) and not
-                    any([pd.isnull(i) for i in ind.fitness])) or \
+                    any([np.isnan(i) for i in ind.fitness])) or \
                     (not isinstance(ind.fitness, list) and not
-                     pd.isnull(ind.fitness)):
+                     np.isnan(ind.fitness)):
                 
                 # All fitnesses are valid.
-                if trackers.max_cache_size is None or trackers.max_cache_size > len(cache):
-                    cache[ind.phenotype] = ind_dic
-                else:
-                    cache.popitem(False)
-                    cache[ind.phenotype] = ind_dic
-                trackers.unique_ind_tracker.add(hash(ind.phenotype))
+                cache[ind.phenotype] = ind.fitness

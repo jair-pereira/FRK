@@ -170,7 +170,6 @@ def parse_stats_from_runs(experiment_name):
                 else:
                     s = "scripts.parse_stats.parse_stats_from_runs\n" \
                         "Error: stat %s is empty for run %s." % (stat, run)
-                    continue
                     raise Exception(s)
 
             except KeyError:

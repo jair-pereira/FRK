@@ -1,0 +1,35 @@
+Generation:
+23
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_random
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_tournament(X, n=1, k=int(n*0.75))
+    U = op.w_pso(S1, w=0.00, c1=0.00, c2=0.75)
+    X  = X
+    #Round 2
+    S1 = op.select_random(X, 1)
+    U  = op.w_pso(S1, w=0.25, c1=0.00, c2=1.00)
+    X  = op.replace_if_random(X, U)
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(400, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[880, 512, 238, 262, 802, 46, 672, 265, 814, 592, 892, 54, 64, 528, 324, 465, 703, 854, 165, 177, 849, 516, 54, 644, 517, 324, 472, 602, 204, 913, 803, 64, 729, 472, 192, 306, 270, 765, 930, 800, 171, 278, 11, 730, 634]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_random> op.repair_random)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> X) , n=1, k= (<k> int(n*0.75)) ))) {::}U =  (<operator1> (<op_pso> op.w_pso(S1, w= (<w> 0.00) , c1= (<c1> 0.00) , c2= (<c2> 0.75) ))) {::}X  =  (<output> (<update_later> X)) {::}) {::}#Round 2{::} (<last_step> S1 =  (<select> (<select_random> op.select_random( (<X_or_U> X) , 1))) {::}U  =  (<operator1> (<op_pso> op.w_pso(S1, w= (<w> 0.25) , c1= (<c1> 0.00) , c2= (<c2> 1.00) ))) {::}X  =  (<output_last> (<update_better_than_random> op.replace_if_random(X, U))) {::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 400) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+1002.4056958091753

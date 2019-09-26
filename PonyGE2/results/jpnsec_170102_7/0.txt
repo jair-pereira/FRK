@@ -1,0 +1,42 @@
+Generation:
+0
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_truncate
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_tournament(X, n=1, k=int(n*0.25))
+    S2 = op.select_tournament(U, n=1, k=int(n*0.75))
+    U  = op.w_crx_blend2(S1, S2, alpha=0.01)
+    X  = op.replace_if_best(X, U)
+    #Round 2
+    S1 = op.select_random(U, 1)
+    U = op.w_pso(S1, w=1.00, c1=2.00, c2=2.00)
+    X  = op.replace_if_random(X, U)
+    #Round 3
+    S1 = op.select_current(X)
+    U  = op.w_levy_flight(S1)
+    X  = U
+    #Round Drop
+    X = op.drop_probability(X, pr=0.75)
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(200, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[438, 79, 897, 879, 915, 155, 970, 232, 574, 762, 284, 886, 332, 351, 970, 549, 24, 307, 121, 842, 684, 666, 626, 729, 312, 623, 238, 677, 125, 254, 258, 858, 794, 561, 432, 859, 862, 732, 864, 884, 417, 863, 882, 118, 225, 815, 109, 286, 182, 794, 784, 60, 796, 256, 394, 917, 772, 710, 662, 881, 286, 823, 979, 831, 45, 240]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_truncate> op.repair_truncate)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> X) , n=1, k= (<k> int(n*0.25)) ))) {::}S2 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> U) , n=1, k= (<k> int(n*0.75)) ))) {::}U  =  (<operator2> (<op_crx_blend> op.w_crx_blend2(S1, S2, alpha= (<alpha> 0.01) ))) {::}X  =  (<output> (<update_best> op.replace_if_best(X, U))) {::}) {::}#Round 2{::} (<step> S1 =  (<select> (<select_random> op.select_random( (<X_or_U> U) , 1))) {::}U =  (<operator1> (<op_pso> op.w_pso(S1, w= (<w> 1.00) , c1= (<c1> 2.00) , c2= (<c2> 2.00) ))) {::}X  =  (<output> (<update_better_than_random> op.replace_if_random(X, U))) {::}) {::}#Round 3{::} (<last_step> S1 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}U  =  (<operator1> (<op_cs> op.w_levy_flight(S1))) {::}X  =  (<output_last> (<update_all> U)) {::})) {::}#Round Drop{::} (<drop> (<drop_random> X = op.drop_probability(X, pr= (<pr> 0.75) ){::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 200) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+-16.924156755939876

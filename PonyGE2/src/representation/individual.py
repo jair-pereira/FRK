@@ -1,8 +1,6 @@
 import numpy as np
-import pandas as pd
 
-
-from algorithm.mapper import mapper, map_tree_from_genome
+from algorithm.mapper import mapper
 from algorithm.parameters import params
 
 
@@ -27,7 +25,7 @@ class Individual(object):
             # The individual needs to be mapped from the given input
             # parameters.
             self.phenotype, self.genome, self.tree, self.nodes, self.invalid, \
-                self.depth, self.used_codons, self.derivation = mapper(genome, ind_tree)
+                self.depth, self.used_codons = mapper(genome, ind_tree)
 
         else:
             # The individual does not need to be mapped.
@@ -36,38 +34,6 @@ class Individual(object):
         self.fitness = params['FITNESS_FUNCTION'].default_fitness
         self.runtime_error = False
         self.name = None
-        # Used in novelty selection
-        self.novelty = np.NaN
-        # Used in lexicase selection
-        self.test_case_results = []
-        self.test_cases = []
-        # Used in novelty of AST
-        self.AST = None
-
-        # print(self.tree.get_memory_size())
-        #
-        # # Don't keep tree for memory reasons
-        self.tree = None
-
-    def get_mem_size(self):
-        import sys
-        # Only use whats being stored in the cache
-        ind_size = 0
-        ind_size += sys.getsizeof(self.phenotype)
-        ind_size += sys.getsizeof(self.genome)
-        # ind_size += self.tree.get_memory_size()
-        # ind_size += sys.getsizeof(self.nodes)
-        # ind_size += sys.getsizeof(self.invalid)
-        # ind_size += sys.getsizeof(self.depth)
-        # ind_size += sys.getsizeof(self.used_codons)
-        ind_size += sys.getsizeof(self.derivation)
-        ind_size += sys.getsizeof(self.fitness)
-        ind_size += sys.getsizeof(self.AST)
-        # ind_size += sys.getsizeof(self.novelty)
-        # ind_size += sys.getsizeof(self.test_case_results)
-        # ind_size += sys.getsizeof(self.name)
-        return ind_size
-
 
     def __lt__(self, other):
         """
@@ -83,8 +49,8 @@ class Individual(object):
         greater than the comparison individual.
         """
 
-        if pd.isnull(self.fitness): return True
-        elif pd.isnull(other.fitness): return False
+        if np.isnan(self.fitness): return True
+        elif np.isnan(other.fitness): return False
         else: return self.fitness < other.fitness if params['FITNESS_FUNCTION'].maximise else other.fitness < self.fitness
 
     def __le__(self, other):
@@ -101,8 +67,8 @@ class Individual(object):
         greater than or equal to the comparison individual.
         """
 
-        if pd.isnull(self.fitness): return True
-        elif pd.isnull(other.fitness): return False
+        if np.isnan(self.fitness): return True
+        elif np.isnan(other.fitness): return False
         else: return self.fitness <= other.fitness if params['FITNESS_FUNCTION'].maximise else other.fitness <= self.fitness
 
     def __str__(self):
@@ -124,9 +90,7 @@ class Individual(object):
 
         if not params['GENOME_OPERATIONS']:
             # Create a new unique copy of the tree.
-            # new_tree = self.tree.__copy__()
-            # Don't store tree for memory reasons
-            new_tree = None
+            new_tree = self.tree.__copy__()
 
         else:
             new_tree = None
@@ -140,7 +104,6 @@ class Individual(object):
         new_ind.depth, new_ind.nodes = self.depth, self.nodes
         new_ind.used_codons = self.used_codons
         new_ind.runtime_error = self.runtime_error
-        new_ind.derivation = self.derivation
 
         return new_ind
 

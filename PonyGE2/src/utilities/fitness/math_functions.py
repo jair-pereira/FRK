@@ -248,16 +248,3 @@ def sci_notation(n, prec=3):
     exponent = ilog(n, base)
     mantissa = n / base**exponent
     return '{0:.{1}f}e{2:+d}'.format(mantissa, prec, exponent)
-
-
-def sample_guassian(mu, sigma, rectify_min=0, rectify_max=1):
-    """Sample from gaussian with mean my and std sigma bounded between rectify_min and rectify_max"""
-    import random
-
-    def rectify(num, bot, top):
-        """Bound num between bot and top"""
-        return min(top, max(num, bot))
-
-    return rectify(random.gauss(mu, sigma), rectify_min, rectify_max)
-
-

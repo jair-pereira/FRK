@@ -2,10 +2,10 @@ from algorithm.parameters import params
 from fitness.base_ff_classes.base_ff import base_ff
 import numpy as np
 from math import *
-import src
+import metaheuristic
 import cocoex, cocopp  # bbob experimentation and post-processing modules
 import pickle
-from stats.stats import stats, get_stats # for our convenience 
+from stats.stats import stats, get_stats # for our convenience
 
 
 class jpnsec(base_ff):
@@ -15,21 +15,21 @@ class jpnsec(base_ff):
     def __init__(self):
         # Initialise base fitness function class.
         super().__init__()
-        
+
         #parameters for bbbob
         self.max_nfe = params['MAX_NFE']
         self.runs    = params['RUNS']
         self.suite   = cocoex.Suite(
-                            "bbob", "", 
+                            "bbob", "",
                             "function_indices:"  +str(params['FUNCTION'])+
-                            " dimensions:"       +str(params['DIMENSIONS'])+ 
+                            " dimensions:"       +str(params['DIMENSIONS'])+
                             " instance_indices:" +str(params['INSTANCE_INDICES'])
                             )
-                            
+
         #
         print("Using BBOB suite: ",self.suite)
-        
-        
+
+
         ### log ###
         self._ind = -1
         self._gen = 0
@@ -53,7 +53,7 @@ class jpnsec(base_ff):
         for problem in self.suite:
             #inputs for the generated algorithm
             d = {
-                "max_nfe"  : self.max_nfe, 
+                "max_nfe"  : self.max_nfe,
                 "dimension": problem.dimension,
                 "my_func"  : problem,
                 "bounds"   : (problem.lower_bounds[0], problem.upper_bounds[0])
@@ -79,8 +79,6 @@ class jpnsec(base_ff):
             output_list.append(stats['gen'])
             output_list.append(self._ind)
             output_list.append(result)
-            for val in d_fitness.values():
-                output_list.append(val[0]) #expecting 1 run
             self.logh.write(",".join(map(str,output_list))+"\n")
             self.logh.flush()
             ###

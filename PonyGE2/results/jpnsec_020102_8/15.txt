@@ -1,0 +1,37 @@
+Generation:
+15
+
+Phenotype:
+import numpy as np
+from metaheuristic import *
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  Solution.repair = op.repair_random
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    U = X
+    #Round 1
+    S1 = op.select_tournament(U, n=1, k=int(n*0.50))
+    U = op.w_pso(S1, w=0.25, c1=0.00, c2=2.00)
+    X  = op.replace_if_random(X, U)
+    #Round 2
+    S1 = op.select_current(U)
+    S2 = op.select_current(U)
+    S3 = op.select_current(X)
+    U  = op.w_mut_de(S1, S2, S3, beta=0.25)
+    X  = U
+    [Xi.getFitness() for Xi in X]
+  return X
+ge(200, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[152, 964, 174, 835, 678, 7, 693, 439, 598, 273, 9, 426, 62, 139, 534, 929, 298, 206, 269, 152, 366, 233, 737, 617, 135, 152, 366, 612, 135, 883, 517, 684, 714, 784, 598, 771, 367, 712, 320, 946, 435, 578, 6, 697, 90, 942, 433, 204, 819]
+Tree:
+(<S> (<init> import numpy as np{::}from metaheuristic import *{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair =  (<repair> (<repair_random> op.repair_random)) {::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::} (<main> (<round> #Round 1{::} (<step> S1 =  (<select> (<select_tournament> op.select_tournament( (<X_or_U> U) , n=1, k= (<k> int(n*0.50)) ))) {::}U =  (<operator1> (<op_pso> op.w_pso(S1, w= (<w> 0.25) , c1= (<c1> 0.00) , c2= (<c2> 2.00) ))) {::}X  =  (<output> (<update_better_than_random> op.replace_if_random(X, U))) {::}) {::}#Round 2{::} (<last_step> S1 =  (<select> (<select_current> op.select_current( (<X_or_U> U) ))) {::}S2 =  (<select> (<select_current> op.select_current( (<X_or_U> U) ))) {::}S3 =  (<select> (<select_current> op.select_current( (<X_or_U> X) ))) {::}U  =  (<operator3> (<op_mut_de> op.w_mut_de(S1, S2, S3, beta= (<beta> 0.25) ))) {::}X  =  (<output_last> (<update_all> U)) {::}))) {::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}) {::} (<call> ge( (<n> 200) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+-209.88

@@ -1,24 +1,9 @@
 """Utilities for tracking progress of runs, including time taken per
 generation, fitness plots, fitness caches, etc."""
-import collections
 
-cache = collections.OrderedDict()
+cache = {}
 # This dict stores the cache for an evolutionary run. The key for each entry
-# is the phenotype of the individual, the value is the individual.
-
-max_cache_size = None
-# A cap on the size of the cache based on available memory and size of Individual
-# Calculated in algorithm.search_loop
-
-unique_ind_tracker = set()
-# Stores the hash of all seen phenotypes, used to determine the number of unique
-# individuals that have been seen
-
-novelty_fitness_archive = set()
-# Novelty-fitness archive
-
-bandit_tracker = {"avg_fit_from_nov": 0, "num_nov": 0, "avg_fit_from_fit": 0, "num_fit": 0}
-# Tracker used in multi arm bandit adaptive novelty
+# is the phenotype of the individual, the value is its fitness.
 
 runtime_error_cache = []
 # This list stores a list of phenotypes which produce runtime errors over an

@@ -22,15 +22,15 @@ params = {
         'EXPERIMENT_NAME': None,
         # Set default number of runs to be done.
         # ONLY USED WITH EXPERIMENT MANAGER.
-        'RUNS': 100,
+        'RUNS': 1,
 
         # Class of problem
         'FITNESS_FUNCTION': "supervised_learning.regression",
 
         # Select problem dataset
-        'DATASET_TRAIN': "Vladislavleva4/Train.txt",
-        'DATASET_TEST': None,
-        'DATASET_DELIMITER': None,
+        # 'DATASET_TRAIN': "Vladislavleva4/Train.txt",
+        # 'DATASET_TEST': None,
+        # 'DATASET_DELIMITER': None,
 
         # Set grammar file
         'GRAMMAR_FILE': "supervised_learning/Vladislavleva4.bnf",
@@ -52,7 +52,7 @@ params = {
         # Set max sizes of individuals
         'MAX_TREE_DEPTH': 90,  # SET TO 90 DUE TO PYTHON EVAL() STACK LIMIT.
                                # INCREASE AT YOUR OWN RISK.
-        'MAX_TREE_NODES': 250,
+        'MAX_TREE_NODES': None,
         'CODON_SIZE': 100000,
         'MAX_GENOME_LENGTH': None,
         'MAX_WRAPS': 0,
@@ -77,12 +77,6 @@ params = {
         # Allow for selection of invalid individuals during selection process.
         'INVALID_SELECTION': False,
 
-        # NOVELTY SEARCH
-        # Percent of time to use novelty fitness in tournament
-        'NOVELTY_FACTOR': 0,
-        # The novelty fitness algorithm to use
-        'NOVELTY_ALGORITHM': 0,
-
         # OPERATOR OPTIONS
         # Boolean flag for selecting whether or not mutation is confined to
         # within the used portion of the genome. Default set to True.
@@ -94,7 +88,7 @@ params = {
         # Set crossover probability.
         'CROSSOVER_PROBABILITY': 0.75,
         # Prevents crossover from generating invalids.
-        'NO_CROSSOVER_INVALIDS': True,
+        'NO_CROSSOVER_INVALIDS': False,
 
         # MUTATION
         # Set mutation operator.
@@ -105,7 +99,7 @@ params = {
         # Set number of mutation events
         'MUTATION_EVENTS': 1,
         # Prevents mutation from generating invalids.
-        'NO_MUTATION_INVALIDS': True,
+        'NO_MUTATION_INVALIDS': False,
 
         # REPLACEMENT
         # Set replacement operator.

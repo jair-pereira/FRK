@@ -11,9 +11,7 @@ from utilities.stats.save_plots import save_plot_from_data, \
     save_pareto_fitness_plot
 from utilities.stats.file_io import save_stats_to_file, save_stats_headers, \
     save_best_ind_to_file, save_first_front_to_file
-# from fitness.novelty import novelty
 
-import datetime
 
 """Algorithm statistics"""
 stats = {
@@ -22,7 +20,7 @@ stats = {
         "regens": 0,
         "invalids": 0,
         "runtime_error": 0,
-        "unique_inds": len(trackers.unique_ind_tracker),
+        "unique_inds": len(trackers.cache),
         "unused_search": 0,
         "ave_genome_length": 0,
         "max_genome_length": 0,
@@ -38,21 +36,9 @@ stats = {
         "min_tree_nodes": 0,
         "ave_fitness": 0,
         "best_fitness": 0,
-        "best_test_fitness": 0,
         "time_taken": 0,
         "total_time": 0,
-        "time_adjust": 0,
-        "novelty_output": 0,
-        "novelty_genotype": 0,
-        "novelty_phenotype": 0,
-        "novelty_ast": 0,
-        "novelty_derivation": 0,
-        "nov_output_total": 0,
-        "nov_genotype_total": 0,
-        "nov_phenotype_total": 0,
-        "nov_ast_total": 0,
-        "nov_derivation_total": 0
-
+        "time_adjust": 0
 }
 
 
@@ -101,19 +87,12 @@ def get_soo_stats(individuals, end):
     """
 
     # Get best individual.
-    best_ind = individuals[0]
-    for ind in individuals:
-        if ind.fitness < best_ind.fitness:
-            best_ind = ind
-        if ind.fitness == best_ind.fitness:
-            if ind.nodes < best_ind.nodes:
-                best_ind = ind
+    # best = max(individuals)
+    best = max(individuals[1:]) # indv[0] is hall of fame
 
-    if not trackers.best_ever or best_ind > trackers.best_ever:
-        # Save best individual in trackers.best_ever.
-        trackers.best_ever = best_ind
-    if best_ind.fitness == trackers.best_ever.fitness and best_ind.nodes < trackers.best_ever.nodes:
-        trackers.best_ever = best_ind
+    # if not trackers.best_ever or best > trackers.best_ever:
+    #     # Save best individual in trackers.best_ever.
+    trackers.best_ever = best
 
     if end or params['VERBOSE'] or not params['DEBUG']:
         # Update all stats.
@@ -137,7 +116,6 @@ def get_soo_stats(individuals, end):
         stdout.write("Evolution: %d%% complete\r" % perc)
         stdout.flush()
 
-
     # Generate test fitness on regression problems
     if hasattr(params['FITNESS_FUNCTION'], "training_test") and end:
 
@@ -147,11 +125,6 @@ def get_soo_stats(individuals, end):
         # Evaluate test fitness.
         trackers.best_ever.test_fitness = params['FITNESS_FUNCTION'](
             trackers.best_ever, dist='test')
-        stats["best_test_fitness"] = trackers.best_ever.test_fitness
-
-        # Save to final stats so stored in stats.tsv
-        final_stats = trackers.stats_list[-1]
-        final_stats["best_test_fitness"] = trackers.best_ever.test_fitness
 
         # Set main fitness as training fitness.
         trackers.best_ever.fitness = trackers.best_ever.training_fitness
@@ -243,9 +216,7 @@ def get_moo_stats(individuals, end):
                 to_plot = [i[o] for i in trackers.best_fitness_list]
 
                 # Plot fitness data for objective o.
-                plotname = ff.__class__.__name__ + str(o)
-
-                save_plot_from_data(to_plot, plotname)
+                save_plot_from_data(to_plot, ff.__class__.__name__)
 
             # TODO: PonyGE2 can currently only plot moo problems with 2 objectives.
             # Check that the number of fitness objectives is not greater than 2
@@ -327,7 +298,7 @@ def update_stats(individuals, end):
     stats['total_inds'] = params['POPULATION_SIZE'] * (stats['gen'] + 1)
     stats['runtime_error'] = len(trackers.runtime_error_cache)
     if params['CACHE']:
-        stats['unique_inds'] = len(trackers.unique_ind_tracker)
+        stats['unique_inds'] = len(trackers.cache)
         stats['unused_search'] = 100 - stats['unique_inds'] / \
                                        stats['total_inds'] * 100
 
@@ -354,93 +325,6 @@ def update_stats(individuals, end):
     stats['max_tree_nodes'] = np.nanmax(nodes)
     stats['ave_tree_nodes'] = np.nanmean(nodes)
     stats['min_tree_nodes'] = np.nanmin(nodes)
-
-    # Not using this for current research, don't need to waste time calculating
-    # Novelty Stats
-    # n = novelty()
-    # total_geno = 0
-    # total_levi = 0
-    # total_ast = 0
-    # total_deriv = 0
-    # total_output = 0
-    # ind_size = len(individuals)
-    # for ind in individuals:
-    #     ind.novelty = np.NaN
-    #     total_output += n.evaluate_distance(ind, "output")
-    #     ind.novelty = np.NaN
-    #     total_geno += n.evaluate_distance(ind, "genotype")
-    #     ind.novelty = np.NaN
-    #     total_levi += n.evaluate_distance(ind, "levi")
-    #     ind.novelty = np.NaN
-    #     total_ast += n.evaluate_distance(ind, "ast")
-    #     ind.novelty = np.NaN
-    #     total_deriv += n.evaluate_distance(ind, "derivation")
-    #     ind.novelty = np.NaN
-    #
-    # stats["novelty_output"] = total_output / ind_size
-    # stats["novelty_genotype"] = total_geno / ind_size
-    # stats["novelty_phenotype"] = total_levi / ind_size
-    # stats["novelty_ast"] = total_ast / ind_size
-    # stats["novelty_derivation"] = total_deriv / ind_size
-
-    # import datetime
-    # start = datetime.datetime.now()
-    if params["NOVELTY"]:
-        if end:
-            import random
-            from representation.individual import Individual
-            # Total Novelty Stats
-            n = novelty()
-            total_output = 0
-            total_geno = 0
-            total_levi = 0
-            total_ast = 0
-            total_deriv = 0
-            cache_size = len(trackers.cache)
-            individual_dics = list(trackers.cache.values())
-            sample_size = min(max(1000, cache_size // 10), 10000)
-            sample_size = min(cache_size, sample_size)
-            ind_sample = random.sample(individual_dics, sample_size)
-            derivation_novelties = []
-            output_novelties = []
-            for ind_dic in ind_sample:
-                ind = Individual(ind_dic["genome"], None, False)
-                ind.fitness = ind_dic["fitness"]
-                ind.phenotype = ind_dic["phenotype"]
-                ind.AST = ind_dic["AST"]
-                ind.derivation = ind_dic["derivation"]
-                ind.test_cases = ind_dic["output_cases"]
-
-                ind.novelty = np.NaN
-                out_distance = n.evaluate_distance(ind, "output")
-                output_novelties.append(out_distance)
-                total_output += out_distance
-                ind.novelty = np.NaN
-                total_geno += n.evaluate_distance(ind, "genotype")
-                ind.novelty = np.NaN
-                total_levi += n.evaluate_distance(ind, "levi")
-                ind.novelty = np.NaN
-                total_ast += n.evaluate_distance(ind, "ast")
-                ind.novelty = np.NaN
-                der_distance = n.evaluate_distance(ind, "derivation")
-                derivation_novelties.append(der_distance)
-                total_deriv += der_distance
-                ind.novelty = np.NaN
-
-            stats["nov_output_total"] = total_output / sample_size
-            stats["nov_genotype_total"] = total_geno / sample_size
-            stats["nov_phenotype_total"] = total_levi / sample_size
-            stats["nov_ast_total"] = total_ast / sample_size
-            stats["nov_derivation_total"] = total_deriv / sample_size
-
-            # Change the last generation stats in the stats list too
-            final_stats = trackers.stats_list[-1]
-            final_stats["nov_output_total"] = total_output / sample_size
-            final_stats["nov_genotype_total"] = total_geno / sample_size
-            final_stats["nov_phenotype_total"] = total_levi / sample_size
-            final_stats["nov_ast_total"] = total_ast / sample_size
-            final_stats["nov_derivation_total"] = total_deriv / sample_size
-    # print("Novelty calculation time: " + str(datetime.datetime.now() - start))
 
     if not hasattr(params['FITNESS_FUNCTION'], 'multi_objective'):
         # Fitness Stats
