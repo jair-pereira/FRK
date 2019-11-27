@@ -16,8 +16,10 @@ print(solver, suite, datetime.datetime.now())
 print("solver, problem_id, start_time, spent_time, spent_nfe, max_nfe")
 for problem in suite:
     problem.observe_with(observer)
-    print(solver, problem.id, time_i, sep=", ", end=", ")
+
     time_i = datetime.datetime.now()
+    print(solver, problem.id, time_i, sep=", ", end=", ")
     S = cs(50, problem, (problem.lower_bounds[0], problem.upper_bounds[0]), problem.dimension, nfe, pr=25, k=0.45)
     print(datetime.datetime.now() - time_i, S.nfe, nfe, sep=", ")
+    
 print(solver, suite, datetime.datetime.now())
