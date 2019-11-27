@@ -1,6 +1,6 @@
 import cocoex
 import os, webbrowser
-from solvers import pso, cs
+from solvers import pso, cs, de
 import datetime
 
 ## bbob validation suite ##
