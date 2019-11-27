@@ -7,7 +7,7 @@ def pso(n, my_func, bounds, dimension, max_nfe, w, c1, c2):
     [Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)) for Xi in X]
     [Xi.getFitness() for Xi in X]
 
-    while Solution.nfe < max_nfe:
+    while Solution.nfe < max_nfe and not my_func.final_target_hit:
         #Round 1
         S  = op.select_current(X)
         U  = op.w_pso(S, w, c1, c2)
@@ -23,7 +23,7 @@ def de(n, my_func, bounds, dimension, max_nfe, beta, pr):
     [Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)) for Xi in X]
     [Xi.getFitness() for Xi in X]
 
-    while Solution.nfe < max_nfe:
+    while Solution.nfe < max_nfe and not my_func.final_target_hit:
         #Round 1
         S1 = op.select_random(X, 1)
         S2 = op.select_random(X, 1)
@@ -45,7 +45,7 @@ def ga(n, my_func, bounds, dimension, max_nfe, k, alpha, pr):
     [Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)) for Xi in X]
     [Xi.getFitness() for Xi in X]
 
-    while Solution.nfe < max_nfe:
+    while Solution.nfe < max_nfe and not my_func.final_target_hit:
         #Round 1
         S1 = op.select_tournament(X, n=1, k=int(k))
         S2 = op.select_tournament(X, n=1, k=int(k))
@@ -66,7 +66,7 @@ def cs(n, my_func, bounds, dimension, max_nfe, pr, k):
     [Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)) for Xi in X]
     [Xi.getFitness() for Xi in X]
 
-    while Solution.nfe < max_nfe:
+    while Solution.nfe < max_nfe and not my_func.final_target_hit:
         #Round 1
         S  = op.select_current(X)
         U  = op.w_levy_flight(S)
@@ -238,5 +238,27 @@ def f1705(n, my_func, bounds, dimension, max_nfe):
         S3 = op.select_current(U)
         U  = op.w_mut_de(S1, S2, S3, beta=0.50)
         X  = U
+        [Xi.getFitness() for Xi in X]
+    return Solution
+
+def de2(n, my_func, bounds, dimension, max_nfe, beta, pr):
+    Solution.setProblem(my_func, bounds, dimension, maximize=False)
+    Solution.repair = op.repair_random
+    X = Solution.initialize(n)
+    [Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)) for Xi in X]
+    [Xi.getFitness() for Xi in X]
+
+    while Solution.nfe < max_nfe and not my_func.final_target_hit:
+        #Round 1
+        S1 = op.select_random(X, 1)
+        S2 = op.select_random(X, 1)
+        S3 = op.select_random(X, 1)
+        U  = op.w_mut_de(S1, S2, S3, beta)
+        #Round 2
+        S1 = op.select_current(X)
+        S2 = op.select_current(U)
+        U  = op.w_crx_exp2(S1, S2, pr)
+        X  = op.replace_if_best(X, U)
+
         [Xi.getFitness() for Xi in X]
     return Solution
