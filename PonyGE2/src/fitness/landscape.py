@@ -34,6 +34,9 @@ class landscape(base_ff):
         # inside an empty dict for safety.
         p, d = ind.phenotype, {}
 
+        d['output_fitness'] = 0
+        d['output_nfe']     = self.max_nfe+1
+
         for problem in self.suite:
             #inputs for the generated algorithm
             d = {
@@ -42,8 +45,6 @@ class landscape(base_ff):
                 "my_func"  : problem,
                 "bounds"   : (problem.lower_bounds[0], problem.upper_bounds[0])
                 }
-            d['output_fitness'] = 0
-            d['output_nfe']     = self.max_nfe+1
 
             # Exec the phenotype.
             try:
@@ -63,7 +64,7 @@ class landscape(base_ff):
 
         #write problem id, fitness and nfe spent then the FRK code
         logc = open(params['FILE_PATH']+"/"+str(self._gen)+"_"+str(self._ind)+".txt", 'w')
-        logc.write(problem.id+","+fitness+","+nfe+"\n")
+        logc.write(problem.id+","+str(fitness)+","+str(nfe)+"\n")
         logc.write(p)
         logc.flush()
         logc.close()
