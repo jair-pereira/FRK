@@ -7,7 +7,7 @@ SAVE_PLOTS:             False
 SAVE_ALL:               True
 
 MULTICORE:              True
-CORES:                  5
+CORES:                  2
 
 CODON_SIZE:             1000
 MAX_GENOME_LENGTH:      50
