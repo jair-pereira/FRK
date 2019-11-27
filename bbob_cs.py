@@ -14,7 +14,7 @@ file = open("results_cs.txt", 'w')
 
 ## loop over problems ##
 solver = "cs_50_25_0.45"
-file.write(solver+","+suite+","+str(datetime.datetime.now())+"\n")
+file.write(solver+","+suite.info+","+str(datetime.datetime.now())+"\n")
 file.write("solver, problem_id, start_time, spent_time, spent_nfe, max_nfe"+"\n")
 for problem in suite:
     problem.observe_with(observer)
@@ -23,5 +23,5 @@ for problem in suite:
     S = cs(50, problem, (problem.lower_bounds[0], problem.upper_bounds[0]), problem.dimension, nfe, pr=25, k=0.45)
     file.write(str(datetime.datetime.now() - time_i)+","+str(S.nfe)+","+str(nfe)+"\n")
 
-file.write(solver+","+suite+","+str(datetime.datetime.now())+"\n")
+file.write(solver+","+suite.info+","+str(datetime.datetime.now())+"\n")
 file.close()
