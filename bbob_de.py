@@ -5,7 +5,7 @@ import datetime
 
 ## bbob validation suite ##
 suite = cocoex.Suite("bbob", "", "function_indices:1-24 dimensions:2,3,5,10,20,40 instance_indices:1-15")
-observer = cocoex.Observer("bbob", "result_folder: " + "PSO")
+observer = cocoex.Observer("bbob", "result_folder: " + "DE")
 
 ## nfe ##
 nfe = 1e+6
