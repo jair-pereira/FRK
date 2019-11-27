@@ -22,6 +22,7 @@ for problem in suite:
     file.write(solver+","+problem.id+","+str(time_i)+",")
     S = de(1600, problem, (problem.lower_bounds[0], problem.upper_bounds[0]), problem.dimension, nfe, beta=0.43, pr=0.32)
     file.write(str(datetime.datetime.now() - time_i)+","+str(S.nfe)+","+str(nfe)+"\n")
+    file.flush()
 
 file.write(solver+","+suite.info+","+str(datetime.datetime.now())+"\n")
 file.close()
