@@ -37,8 +37,10 @@ class landscape(base_ff):
         d['output_fitness'] = 0
         d['output_nfe']     = self.max_nfe+1
 
+        problemid = ""
         for problem in self.suite:
             #inputs for the generated algorithm
+            problemid = problem.id
             d = {
                 "max_nfe"  : self.max_nfe,
                 "dimension": problem.dimension,
@@ -64,7 +66,7 @@ class landscape(base_ff):
 
         #write problem id, fitness and nfe spent then the FRK code
         logc = open(params['FILE_PATH']+"/"+str(self._gen)+"_"+str(self._ind)+".txt", 'w')
-        logc.write(problem.id+","+str(fitness)+","+str(nfe)+"\n")
+        logc.write(problemid+","+str(fitness)+","+str(nfe)+"\n")
         logc.write(p)
         logc.flush()
         logc.close()
