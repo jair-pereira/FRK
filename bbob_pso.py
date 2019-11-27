@@ -10,17 +10,21 @@ observer = cocoex.Observer("bbob", "result_folder: " + "PSO")
 ## nfe ##
 nfe = 1e+6
 
+file = open("results_pso.txt", 'w')
+
 ## loop over problems ##
 solver = "pso_400_0.50_0.50_1.50"
-print(solver, suite, datetime.datetime.now())
-print("solver, problem_id, start_time, spent_time, spent_nfe, max_nfe")
+file.write(solver+","+suite+","+str(datetime.datetime.now())+"\n")
+file.write("solver, problem_id, start_time, spent_time, spent_nfe, max_nfe"+"\n")
 for problem in suite:
     problem.observe_with(observer)
     time_i = datetime.datetime.now()
-    print(solver, problem.id, time_i, sep=", ", end=", ")
+    file.write(solver+","+problem.id+","+str(time_i)+",")
     S = pso(400, problem, (problem.lower_bounds[0], problem.upper_bounds[0]), problem.dimension,
             nfe, w=0.50, c1=0.50, c2=1.50)
-    print(datetime.datetime.now() - time_i, S.nfe, nfe, sep=", ")
+    file.write(str(datetime.datetime.now() - time_i)+","+str(S.nfe)+","+str(nfe)+"\n")
     #S = cs(50, problem, (problem.lower_bounds[0], problem.upper_bounds[0]), problem.dimension, nfe, pr=25, k=0.45)
     #S = de(1600, problem, (problem.lower_bounds[0], problem.upper_bounds[0]), problem.dimension, nfe, beta=0.43, pr=0.32)
-print(solver, suite, datetime.datetime.now())
+file.write(solver+","+suite+","+str(datetime.datetime.now())+"\n")
+
+file.close()
