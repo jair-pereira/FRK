@@ -11,9 +11,9 @@ observer = cocoex.Observer("bbob", "result_folder: " + "PSO")
 nfe = 1e+6
 
 ## loop over problems ##
+solver = "pso_400_0.50_0.50_1.50"
 print(solver, suite, datetime.datetime.now())
 print("solver, problem_id, start_time, spent_time, spent_nfe, max_nfe")
-solver = "pso_400_0.50_0.50_1.50"
 for problem in suite:
     problem.observe_with(observer)
     print(solver, problem.id, time_i, sep=", ", end=", ")
