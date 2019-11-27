@@ -25,8 +25,10 @@ def de(n, my_func, bounds, dimension, max_nfe, beta, pr):
 
     while Solution.nfe < max_nfe and not my_func.final_target_hit:
         #Round 1
-        S  = op.select_random(X, 3)
-        U  = op.w_mut_de(S[:,0], S[:,1], S[:,2], beta)
+        S1 = op.select_random(X, 1)
+        S2 = op.select_random(X, 1)
+        S3 = op.select_random(X, 1)
+        U  = op.w_mut_de(S1, S2, S3, beta)
         #Round 2
         S1 = op.select_current(X)
         S2 = op.select_current(U)
