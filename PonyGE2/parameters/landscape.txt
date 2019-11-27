@@ -6,6 +6,9 @@ SILENT:                 True
 SAVE_PLOTS:             False
 SAVE_ALL:               True
 
+MULTICORE:              True
+CORES:                  5
+
 CODON_SIZE:             1000
 MAX_GENOME_LENGTH:      50
 MAX_INIT_TREE_DEPTH:    10
