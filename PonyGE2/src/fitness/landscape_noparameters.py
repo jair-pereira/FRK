@@ -4,7 +4,7 @@ import metaheuristic
 import cocoex
 from stats.stats import stats, get_stats # for our convenience
 
-class landscape(base_ff):
+class landscape_noparameters(base_ff):
     maximise = False
 
     def __init__(self):
