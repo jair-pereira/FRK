@@ -73,9 +73,9 @@
 <repair_truncate> ::= op.repair_truncate
 
 #PARAMETERS
-<parameter_int>					::= generate_int(min=2, max=2000)
-<parameter_float>				::= generate_float(min=0, max=3, step=0.01)
-<parameter_percentage>	::= generate_float(min=0, max=1, step=0.05)
+<parameter_int>					::= op.generate_int(min=2, max=2000)
+<parameter_float>				::= op.generate_float(min=0, max=3, step=0.01)
+<parameter_percentage>	::= op.generate_float(min=0, max=1, step=0.05)
 
 #exec
 <call> ::= Solution = ge(<parameter_int>, my_func, bounds, dimension, max_nfe){::}output_fitness = Solution.best.getFitness(){::}output_nfe = Solution.nfe

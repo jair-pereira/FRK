@@ -550,14 +550,3 @@ def generate_float(min=0, max=1, step=0.05):
     # percentages: min=0, max=1, step=0.05
     # other parameters: min=0, max=3, step=0.01
     np.random.choice(np.arange(min, max, step))
-
-
-    #PARAMETERS
-    <n>     ::=   50 | 100  | 200  | 400  #| 800  | 1600 # population size
-    <k> 	::=    1 | int(n*0.10) | int(n*0.25) | int(n*0.50) | int(n*0.75) | n # k: group size for tournament or drop_worst
-    <w>     ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # w: inertia parameter for pso
-    <c1>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # c1: cognitive parameter for pso
-    <c2>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # c1: social parameter for pso
-    <pr>    ::= 0.10 | 0.25 | 0.50 | 0.75 | 1.00 		# pr: probability for mutation and drop outs
-    <alpha> ::= 0.00 | 0.01 | 0.05 | 0.10 | 0.20 | 0.50 # alpha: parameter for blend crossover
-    <beta>  ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # beta: parameter for de mutation
