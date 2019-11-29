@@ -34,7 +34,7 @@ class landscape(base_ff):
         # inside an empty dict for safety.
         p, d = ind.phenotype, {}
 
-        d['output_fitness'] = 0
+        d['output_fitness'] = 99999999
         d['output_nfe']     = self.max_nfe+1
 
         problemid = ""
