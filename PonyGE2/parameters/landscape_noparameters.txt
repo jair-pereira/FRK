@@ -35,5 +35,5 @@ REPETITIONS:  10
 
 ########## BBOB ##########
 DIMENSIONS:       10
-FUNCTION:         '15'
+FUNCTION:         '1'
 INSTANCE_INDICES: '1'
