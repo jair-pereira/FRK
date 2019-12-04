@@ -16,7 +16,7 @@ class usual(base_ff):
         self._gen = 0
 
 
-        self._repetitions = 5
+        self._repetitions = params['REPETITIONS']
         #parameters for bbbob
         self.max_nfe = params['MAX_NFE']
         self.runs    = params['RUNS']
@@ -36,10 +36,14 @@ class usual(base_ff):
         # inside an empty dict for safety.
         p, d = ind.phenotype, {}
 
-        d['output_fitness'] = 99999999
-        d['output_nfe']     = self.max_nfe+1
+        d['output_fitness'] = None
+        d['output_nfe']     = None
 
         problemid = ""
+        code    =  p
+        fitness = [np.inf for _ in range(self._repetitions)]
+        nfe     = [np.inf for _ in range(self._repetitions)]
+        errors  = ["" for _ in range(self._repetitions)]
         for problem in self.suite:
             #inputs for the generated algorithm
             problemid = problem.id
