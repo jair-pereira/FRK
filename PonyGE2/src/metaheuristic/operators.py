@@ -549,4 +549,4 @@ def generate_int(min=2, max=2000):
 def generate_float(min=0, max=1, step=0.05):
     # percentages: min=0, max=1, step=0.05
     # other parameters: min=0, max=3, step=0.01
-    np.random.choice(np.arange(min, max, step))
+    return np.random.choice(np.arange(min, max, step))
