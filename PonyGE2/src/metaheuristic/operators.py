@@ -543,10 +543,10 @@ def scale(x, maximize=False):
     else:
         return (b+a) - result
 
-def generate_int(min=2, max=2000):
+def generate_int(min=20, max=2000):
     return np.random.choice(range(min, max))
 
-def generate_float(min=0, max=1, step=0.05):
+def generate_float(min=0.05, max=1, step=0.05):
     # percentages: min=0, max=1, step=0.05
     # other parameters: min=0, max=3, step=0.01
     return np.random.choice(np.arange(min, max, step))
