@@ -2,6 +2,7 @@ from algorithm.parameters import params
 from fitness.base_ff_classes.base_ff import base_ff
 import metaheuristic
 import cocoex
+import numpy as np
 from stats.stats import stats, get_stats # for our convenience
 
 class landscape_noparameters(base_ff):
@@ -15,8 +16,7 @@ class landscape_noparameters(base_ff):
         self._ind = -1
         self._gen = 0
 
-
-        self._repetitions = 5
+        self._repetitions = params['REPETITIONS']
         #parameters for bbbob
         self.max_nfe = params['MAX_NFE']
         self.runs    = params['RUNS']
@@ -36,10 +36,17 @@ class landscape_noparameters(base_ff):
         # inside an empty dict for safety.
         p, d = ind.phenotype, {}
 
-        d['output_fitness'] = 99999999
-        d['output_nfe']     = self.max_nfe+1
+        # todo: all of these non default ponyge dict params
+        # should be init together
+        d['output_fitness'] = None
+        d['output_nfe']     = None
 
         problemid = ""
+        code    =  p
+        fitness = [np.inf for _ in range(self._repetitions)]
+        nfe     = [np.inf for _ in range(self._repetitions)]
+        errors  = ["" for _ in range(self._repetitions)]
+
         for problem in self.suite:
             #inputs for the generated algorithm
             problemid = problem.id
@@ -51,20 +58,17 @@ class landscape_noparameters(base_ff):
                 }
 
             # Exec the phenotype.
-            fitness = 0
-            nfe = 0
             try:
                 for r in range(self._repetitions):
                     exec(p, d)
-                    nfe     += d['output_nfe']
-                    fitness += d['output_fitness']
+                    nfe[r]     = d['output_nfe']
+                    fitness[r] = d['output_fitness']
             except Exception as err:
-                nfe     += d['max_nfe']+1
-                fitness += 99999999
-                print("A FRK couldnt be executed")
-
-        fitness = fitness/self._repetitions
-        nfe     = nfe/self._repetitions
+                errors[r]  = err
+                print("==========================")
+                print("A FRK couldnt be executed:")
+                print(err)
+                print("==========================")
 
         # Log
         self._ind += 1
@@ -74,9 +78,11 @@ class landscape_noparameters(base_ff):
 
         #write problem id, fitness and nfe spent then the FRK code
         logc = open(params['FILE_PATH']+"/"+str(self._gen)+"_"+str(self._ind)+".txt", 'w')
-        logc.write(problemid+","+str(fitness)+","+str(nfe)+"\n")
-        logc.write(p)
+        logc.write(problemid+"\n")
+        logc.write(",".join(map(str,fitness))+"\n")
+        logc.write(",".join(map(str,nfe))+"\n")
+        logc.write(code)
         logc.flush()
         logc.close()
 
-        return fitness
+        return min(fitness)
