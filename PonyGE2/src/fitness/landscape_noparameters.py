@@ -67,8 +67,10 @@ class landscape_noparameters(base_ff):
                 errors[r]  = err
                 print("==========================")
                 print("A FRK couldnt be executed:")
+                print(p)
                 print(err)
                 print("==========================")
+                raise err
 
         # Log
         self._ind += 1
