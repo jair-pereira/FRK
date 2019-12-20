@@ -43,5 +43,5 @@ REPETITIONS:  10
 ########## BBOB ##########
 CHANGE_DIM_AT:    '5,5,10,15'
 DIMENSIONS:       '2,3,5,10'
-FUNCTION:         '15'
+FUNCTION:         '1'
 INSTANCE_INDICES: '1'

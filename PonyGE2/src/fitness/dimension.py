@@ -60,7 +60,7 @@ class dimension(base_ff):
         errors  = ["" for _ in range(self._repetitions)]
 
         # go to a harder problem based on param['CHANGE_DIM_AT']
-        problem = suite[self._idx_dim[self._gen]]
+        problem = self.suite[self._idx_dim[self._gen]]
 
         #inputs for the generated algorithm
         problemid = problem.id
