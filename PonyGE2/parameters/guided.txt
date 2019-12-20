@@ -33,7 +33,7 @@ CROSSOVER:              subtree
 CROSSOVER_PROBABILITY:  0.75
 MUTATION:               subtree
 
-GENERATIONS:            10
+GENERATIONS:            30
 POPULATION_SIZE:        30
 TOURNAMENT_SIZE:        4
 
@@ -43,5 +43,5 @@ REPETITIONS:  10
 
 ########## BBOB ##########
 DIMENSIONS:       10
-FUNCTION:         '15'
+FUNCTION:         '1'
 INSTANCE_INDICES: '1'
