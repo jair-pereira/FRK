@@ -1,10 +1,17 @@
 #### HYPER-HEURISTIC ####
 CACHE:                  True
+LOOKUP_FITNESS:         False
+MUTATE_DUPLICATES:      True
+
 DEBUG:                  False
 VERBOSE:                False
 SILENT:                 True
 SAVE_PLOTS:             False
 SAVE_ALL:               True
+
+SAVE_STATE:             True
+SAVE_STATE_STEP:        1
+LOAD_STATE:             None
 
 MULTICORE:              False
 CORES:                  0
@@ -19,6 +26,7 @@ FITNESS_FUNCTION:       landscape_noparameters
 
 INITIALISATION:         uniform_tree
 SELECTION:              tournament
+ELITE_SIZE:             0
 INVALID_SELECTION:      False
 REPLACEMENT:            generational
 CROSSOVER:              subtree

@@ -218,7 +218,7 @@ def crx_exchange_points(x1, x2, points):
     return u, v
 
 # wrapper 2children
-def w_crx_uni2(S1, S2, pr):
+def w_crx_uni(S1, S2, pr):
     ## not implemented ##
     return
 
