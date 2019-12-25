@@ -210,15 +210,15 @@ def crx_exchange_points(x1, x2, points):
     :returns: (np.array, np.array)
     '''
     u = np.array([_ for _ in x1])
-    v = np.array([_ for _ in x2])
+    #v = np.array([_ for _ in x2])
 
     u[points] = x2[points]
-    v[points] = x1[points]
+    #v[points] = x1[points]
 
-    return u, v
+    return u, []# v
 
 # wrapper 2children
-def w_crx_uni2(S1, S2, pr):
+def w_crx_uni(S1, S2, pr):
     ## not implemented ##
     return
 
@@ -234,7 +234,7 @@ def w_crx_uni2(S1, S2, pr):
     :returns: list of candidate solutions
     '''
     U = Solution.initialize(len(S1))
-    u = np.array([crx_exponential(X1.x, X2.x, pr) for X1, X2 in zip(S1[:,0], S2[:,0])])
+    u = np.array([crx_uniform(X1.x, X2.x, pr) for X1, X2 in zip(S1[:,0], S2[:,0])])
 
     for i in range(len(U)):
         U[i].setX(u[i,0])
@@ -311,7 +311,6 @@ def w_mut_uni(S, pr):
 
     for i in range(len(U)):
         U[i].setX(u[i])
-        # U[i].copyStatusPSO(S[i,0])
         U[i].setVelocity(S[i,0].velocity)
         U[i].pbest = S[i,0].pbest
 
@@ -503,11 +502,11 @@ def repair_reflect(x, lb, ub):
 def replace_if_best(X1, X2):
     '''
     Compares the candidate solutions in X1 with the ones in X2 side by side - i.e., zip(X1, X2), returns the best ones based on their fitness
-    :param X1: list of candidate solutions before a operator was applied
-    :param X2: list of candidate solutions after a operator was applied
+    :param X1: list of candidate solutions before a operator is applied
+    :param X2: list of candidate solutions after a operator is applied
     :returns: list of candidate solutions
     '''
-    U = [X2[i] if X2[i].getFitness() > X1[i].getFitness() else X1[i] for i in range(X1.shape[0])]
+    U = [X2[i] if X2[i] > X1[i] else X1[i] for i in range(X1.shape[0])]
     return np.array(U)
 
 
@@ -515,11 +514,11 @@ def replace_if_best(X1, X2):
 def replace_if_random(X1, X2):
     '''
     Compares each candidate solutions in X2 with a random one in X2, returns the ones in X2 if it is better than a random one or append the one in X1 with the same index if it is not.
-    :param X1: list of candidate solutions before a operator was applied
-    :param X2: list of candidate solutions after a operator was applied
+    :param X1: list of candidate solutions before a operator is applied
+    :param X2: list of candidate solutions after a operator is applied
     :returns: list of candidate solutions
     '''
-    U = [X2[i] if X2[i].getFitness() > X2[np.random.randint(0, X2.shape[0])].getFitness() else X1[i] for i in range(X1.shape[0])]
+    U = [X2[i] if X2[i] > X2[np.random.randint(0, X2.shape[0])] else X1[i] for i in range(X1.shape[0])]
     return np.array(U)
 
 
@@ -546,7 +545,7 @@ def scale(x, maximize=False):
 def generate_int(min=20, max=2000):
     return np.random.choice(range(min, max))
 
-def generate_float(min=0.05, max=1, step=0.05):
+def generate_float(min=0, max=1, step=0.05):
     # percentages: min=0, max=1, step=0.05
     # other parameters: min=0, max=3, step=0.01
     return np.random.choice(np.arange(min, max, step))
