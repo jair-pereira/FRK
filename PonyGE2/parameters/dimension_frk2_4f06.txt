@@ -1,0 +1,47 @@
+#### HYPER-HEURISTIC ####
+CACHE:                  True
+LOOKUP_FITNESS:         False
+MUTATE_DUPLICATES:      True
+
+DEBUG:                  False
+VERBOSE:                False
+SILENT:                 True
+SAVE_PLOTS:             False
+SAVE_ALL:               False
+
+SAVE_STATE:             True
+SAVE_STATE_STEP:        1
+LOAD_STATE:             None
+
+MULTICORE:              False
+CORES:                  0
+
+CODON_SIZE:             1000
+MAX_GENOME_LENGTH:      50
+MAX_INIT_TREE_DEPTH:    10
+MAX_TREE_DEPTH:         17
+
+GRAMMAR_FILE:           frk_v2.pybnf
+FITNESS_FUNCTION:       dimension
+
+INITIALISATION:         uniform_tree
+SELECTION:              tournament
+INVALID_SELECTION:      False
+REPLACEMENT:            generational
+CROSSOVER:              subtree
+CROSSOVER_PROBABILITY:  0.75
+MUTATION:               subtree
+
+GENERATIONS:            30
+POPULATION_SIZE:        30
+TOURNAMENT_SIZE:        4
+
+##### META-HEURISTIC #####
+MAX_NFE:      1e+4
+REPETITIONS:  10
+
+########## BBOB ##########
+CHANGE_DIM_AT:    '5,5,10,15'
+DIMENSIONS:       '2,3,5,10'
+FUNCTION:         '6'
+INSTANCE_INDICES: '1'

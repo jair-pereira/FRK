@@ -73,8 +73,8 @@
 <repair_truncate> ::= op.repair_truncate
 
 #PARAMETERS
-<parameter_int>					::= op.generate_int(min=20, max=2000)
-<parameter_float>				::= op.generate_float(min=0, max=3, step=0.01)
+<parameter_int>					::= op.generate_int(min=20, max=1200)
+<parameter_float>				::= op.generate_float(min=0, max=2, step=0.01)
 <parameter_percentage>	::= op.generate_float(min=0.05, max=1, step=0.05)
 
 #exec
