@@ -33,7 +33,7 @@ CROSSOVER_PROBABILITY:  0.75
 MUTATION:               subtree
 
 GENERATIONS:            30
-POPULATION_SIZE:        30
+POPULATION_SIZE:        20
 TOURNAMENT_SIZE:        4
 
 ##### META-HEURISTIC #####
