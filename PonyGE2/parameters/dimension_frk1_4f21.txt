@@ -37,7 +37,7 @@ POPULATION_SIZE:        30
 TOURNAMENT_SIZE:        4
 
 ##### META-HEURISTIC #####
-MAX_NFE:      1e+5
+MAX_NFE:      5e+4
 REPETITIONS:  1
 
 ########## BBOB ##########

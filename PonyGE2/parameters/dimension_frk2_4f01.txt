@@ -38,7 +38,7 @@ TOURNAMENT_SIZE:        4
 
 ##### META-HEURISTIC #####
 MAX_NFE:      1e+4
-REPETITIONS:  10
+REPETITIONS:  5
 
 ########## BBOB ##########
 CHANGE_DIM_AT:    '5,5,10,15'
