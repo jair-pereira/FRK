@@ -41,7 +41,7 @@ MAX_NFE:      1e+4
 REPETITIONS:  5
 
 ########## BBOB ##########
-CHANGE_DIM_AT:    '5,5,10,15'
+CHANGE_DIM_AT:    '5,5,5,32'
 DIMENSIONS:       '2,3,5,10'
 FUNCTION:         '21'
 INSTANCE_INDICES: '1'
