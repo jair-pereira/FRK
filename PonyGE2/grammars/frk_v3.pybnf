@@ -1,0 +1,81 @@
+# parcing syntax: "<__>" - non-terminals, "{::}" - new line, "{:_____:}" - indentation
+
+# Initialization, no branching
+<S> ::= <init>{::}<call>
+
+<init> ::= import numpy as np{::}from metaheuristic import *{::}def ge(my_func, bounds, dimension, max_nfe):{:n = op.generate_int(min=20, max=1200){::}Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair = <repair>{::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}psetA = op.gen_var_param(){::}psetB = op.gen_var_param(){::}psetC = op.gen_var_param(){::}seltourn_pk = op.gen_tourn_param(){::}pDrop = op.gen_drop_param(){::}while Solution.nfe < max_nfe and not my_func.final_target_hit:{:{::}pTourn = iter(seltourn_pk){::}U = X{::}<main>{::}[Xi.getFitness() for Xi in X]:}{::}return Solution:}{::}
+
+# BRANCHING STARTS HERE
+# main
+<main> ::= <round>|<round>{::}'#Round Drop'{::}<drop>
+
+<round> ::= '#Round 1'{::}pset = psetA{::}<last_step>|
+			'#Round 1'{::}pset = psetA{::}<step>{::}'#Round 2'{::}pset = psetB{::}<last_step>|
+			'#Round 1'{::}pset = psetA{::}<step>{::}'#Round 2'{::}pset = psetB{::}<step>{::}'#Round 3'{::}pset = psetC{::}<last_step>
+
+<last_step> ::= S1 = <select>{::}U  = <operator1>{::}X  = <output_last>{::}|
+				S1 = <select>{::}U  = <operator1>{::}X  = <output_last>{::}|
+				S1 = <select>{::}U  = <operator1>{::}X  = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}U  = <operator2>{::}X  = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}U  = <operator2>{::}X  = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}U  = <operator2>{::}X  = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U  = <operator3>{::}X  = <output_last>{::}
+
+<step> ::= 	S1 = <select>{::}U = <operator1>{::}X  = <output>{::}|
+				S1 = <select>{::}U = <operator1>{::}X  = <output>{::}|
+				S1 = <select>{::}U = <operator1>{::}X  = <output>{::}|
+				S1 = <select>{::}S2 = <select>{::}U  = <operator2>{::}X  = <output>{::}|
+				S1 = <select>{::}S2 = <select>{::}U  = <operator2>{::}X  = <output>{::}|
+				S1 = <select>{::}S2 = <select>{::}U  = <operator2>{::}X  = <output>{::}|
+				S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U  = <operator3>{::}X  = <output>{::}
+
+<select>    ::= <select_random>|<select_tournament>|<select_current>#|<select_roulette>
+<operator1> ::= <op_pso>|<op_cs>|<op_mut_uni>
+<operator2> ::= <op_crx_blend>|<op_crx_exp>|<op_crx_uni>
+<operator3> ::= <op_mut_de>
+<output>    ::= <update_all>|<update_best>|<update_better_than_random>|<update_later>
+<output_last> ::= <update_all>|<update_best>|<update_better_than_random>
+<drop>      ::= <drop_random>|<drop_worst>
+<repair>    ::= <repair_random>|<repair_truncate>
+
+#selection
+<select_random>     ::= op.select_random(<X_or_U>, 1)
+<select_tournament> ::= op.select_tournament(<X_or_U>, n=1, k=int(n*next(pTourn)))
+<select_current>    ::= op.select_current(<X_or_U>)
+<select_roulette>   ::= op.select_roulette(<X_or_U>)
+<X_or_U> ::= X | U
+
+#operators 1-1
+<op_pso>     ::= op.w_pso(S1, w=pset["pso_w"], c1=pset["pso_c1"], c2=pset["pso_c2"])
+<op_cs>      ::= op.w_levy_flight(S1)
+<op_mut_uni> ::= op.w_mut_uni(S1, pr=pset["mutuni_pr"])
+
+#operators 2-2
+<op_crx_blend> ::= op.w_crx_blend2(S1, S2, alpha=pset["crxbld_alpha"])
+<op_crx_exp>   ::= op.w_crx_exp2(S1, S2, pr=pset["crxexp_pr"])
+<op_crx_uni>   ::= op.w_crx_uni2(S1, S2, pr=pset["crxuni_pr"])
+
+#operators 3-1
+<op_mut_de> ::= op.w_mut_de(S1, S2, S3, beta=pset["mutde_beta"])
+
+#output (update-rule / keep-rule)
+<update_later> ::= X #apply more steps before updating
+<update_all> ::= U
+<update_best> ::= op.replace_if_best(X, U)
+<update_better_than_random> ::= op.replace_if_random(X, U)
+
+#drop
+<drop_random> ::= X = op.drop_probability(X, pr=pDrop["drprdn_pr"]){::}
+<drop_worst>  ::= X = op.drop_worst(X, pr=pDrop["drpwrst_pr"], k=int(n*pDrop["drpwrst_pk"])) {::}
+
+#repair
+<repair_random>   ::= op.repair_random
+<repair_truncate> ::= op.repair_truncate
+
+#PARAMETERS
+<parameter_int>					::= op.generate_int(min=20, max=1200)
+<parameter_float>				::= op.generate_float(min=0, max=2, step=0.01)
+<parameter_percentage>	::= op.generate_float(min=0.05, max=1, step=0.05)
+
+#exec
+<call> ::= Solution = ge(my_func, bounds, dimension, max_nfe){::}output_fitness = Solution.best.getFitness(){::}output_nfe = Solution.nfe

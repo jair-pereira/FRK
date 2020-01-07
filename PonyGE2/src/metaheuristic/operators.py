@@ -549,3 +549,24 @@ def generate_float(min=0, max=1, step=0.05):
     # percentages: min=0, max=1, step=0.05
     # other parameters: min=0, max=3, step=0.01
     return np.random.choice(np.arange(min, max, step))
+
+def gen_var_param():
+    d = {"pso_w": generate_float(min=0, max=2, step=0.01),
+        "pso_c1": generate_float(min=0, max=2, step=0.01),
+        "pso_c2": generate_float(min=0, max=2, step=0.01),
+        "mutuni_pr": generate_float(min=0.05, max=1, step=0.05),
+        "crxbld_alpha": generate_float(min=0, max=2, step=0.01),
+        "crxexp_pr": generate_float(min=0.05, max=1, step=0.05),
+        "crxuni_pr": generate_float(min=0.05, max=1, step=0.05),
+        "mutde_beta":generate_float(min=0, max=2, step=0.01)}
+
+    return d
+
+def gen_tourn_param():
+    return [generate_float(min=0.05, max=1, step=0.05) for _ in range(9)]
+
+def gen_drop_param():
+    d = {"drprdn_pr": generate_float(min=0.05, max=1, step=0.05),
+        "drpwrst_pr": generate_float(min=0.05, max=1, step=0.05),
+        "drpwrst_pk": generate_float(min=0.05, max=1, step=0.05)}
+    return d

@@ -32,16 +32,16 @@ CROSSOVER:              subtree
 CROSSOVER_PROBABILITY:  0.75
 MUTATION:               subtree
 
-GENERATIONS:            2
+GENERATIONS:            30
 POPULATION_SIZE:        20
 TOURNAMENT_SIZE:        4
 
 ##### META-HEURISTIC #####
-MAX_NFE:      1e+0
+MAX_NFE:      1e+4
 REPETITIONS:  5
 
 ########## BBOB ##########
-CHANGE_DIM_AT:    '32'
-DIMENSIONS:       '10'
-FUNCTION:         '21'
+CHANGE_DIM_AT:    '5,5,5,32'
+DIMENSIONS:       '2,3,5,10'
+FUNCTION:         '1'
 INSTANCE_INDICES: '1'
