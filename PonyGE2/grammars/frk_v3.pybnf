@@ -3,7 +3,7 @@
 # Initialization, no branching
 <S> ::= <init>{::}<call>
 
-<init> ::= import numpy as np{::}from metaheuristic import *{::}def ge(my_func, bounds, dimension, max_nfe):{:n = op.generate_int(min=20, max=1200){::}Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair = <repair>{::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}psetA = op.gen_var_param(){::}psetB = op.gen_var_param(){::}psetC = op.gen_var_param(){::}seltourn_pk = op.gen_tourn_param(){::}pDrop = op.gen_drop_param(){::}while Solution.nfe < max_nfe and not my_func.final_target_hit:{:{::}pTourn = iter(seltourn_pk){::}U = X{::}<main>{::}[Xi.getFitness() for Xi in X]:}{::}return Solution:}{::}
+<init> ::= import numpy as np{::}from metaheuristic import *{::}def ge(my_func, bounds, dimension, max_nfe):{:n = op.generate_int(min=20, max=1200){::}Solution.setProblem(my_func, bounds, dimension, maximize=False){::}Solution.repair = <repair>{::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}psetA = op.gen_var_param(){::}psetB = op.gen_var_param(){::}psetC = op.gen_var_param(){::}seltourn_pk = op.gen_tourn_param(){::}pDrop = op.gen_drop_param(){::}while Solution.nfe < max_nfe and not my_func.final_target_hit:{:{::}pTourn = iter(seltourn_pk){::}U = X{::}<main>{::}[Xi.getFitness() for Xi in X]{::}:}{::}return Solution:}{::}
 
 # BRANCHING STARTS HERE
 # main
@@ -46,17 +46,17 @@
 <X_or_U> ::= X | U
 
 #operators 1-1
-<op_pso>     ::= op.w_pso(S1, w=pset["pso_w"], c1=pset["pso_c1"], c2=pset["pso_c2"])
+<op_pso>     ::= op.w_pso(S1, w=pset["'pso_w'"], c1=pset["'pso_c1'"], c2=pset["'pso_c2'"])
 <op_cs>      ::= op.w_levy_flight(S1)
-<op_mut_uni> ::= op.w_mut_uni(S1, pr=pset["mutuni_pr"])
+<op_mut_uni> ::= op.w_mut_uni(S1, pr=pset["'mutuni_pr'"])
 
 #operators 2-2
-<op_crx_blend> ::= op.w_crx_blend2(S1, S2, alpha=pset["crxbld_alpha"])
-<op_crx_exp>   ::= op.w_crx_exp2(S1, S2, pr=pset["crxexp_pr"])
-<op_crx_uni>   ::= op.w_crx_uni2(S1, S2, pr=pset["crxuni_pr"])
+<op_crx_blend> ::= op.w_crx_blend2(S1, S2, alpha=pset["'crxbld_alpha'"])
+<op_crx_exp>   ::= op.w_crx_exp2(S1, S2, pr=pset["'crxexp_pr'"])
+<op_crx_uni>   ::= op.w_crx_uni2(S1, S2, pr=pset["'crxuni_pr'"])
 
 #operators 3-1
-<op_mut_de> ::= op.w_mut_de(S1, S2, S3, beta=pset["mutde_beta"])
+<op_mut_de> ::= op.w_mut_de(S1, S2, S3, beta=pset["'mutde_beta'"])
 
 #output (update-rule / keep-rule)
 <update_later> ::= X #apply more steps before updating
@@ -65,8 +65,8 @@
 <update_better_than_random> ::= op.replace_if_random(X, U)
 
 #drop
-<drop_random> ::= X = op.drop_probability(X, pr=pDrop["drprdn_pr"]){::}
-<drop_worst>  ::= X = op.drop_worst(X, pr=pDrop["drpwrst_pr"], k=int(n*pDrop["drpwrst_pk"])) {::}
+<drop_random> ::= X = op.drop_probability(X, pr=pDrop["'drprdn_pr'"]){::}
+<drop_worst>  ::= X = op.drop_worst(X, pr=pDrop["'drpwrst_pr'"], k=int(n*pDrop["'drpwrst_pk'"]) {::}
 
 #repair
 <repair_random>   ::= op.repair_random
