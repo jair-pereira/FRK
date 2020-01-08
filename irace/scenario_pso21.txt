@@ -25,7 +25,7 @@ targetRunner = "./target-runner_psoF21"
 
 ## The maximum number of runs (invocations of targetRunner) that will performed. It
 ## determines the (maximum) budget of experiments for the tuning.
-maxExperiments = 900
+maxExperiments = 3000
 
 ## Number of iterations. Default 2+log_2(number_parameters)
 nbIterations = 0
