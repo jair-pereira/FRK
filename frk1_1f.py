@@ -1,12 +1,14 @@
-import numpy as np
 from metaheuristic import *
 
-def frk1_1f21(n, my_func, bounds, dimension, max_nfe):
+#11,13
+def frk1_1f21(my_func, bounds, dimension, max_nfe):
+  n = 100
   Solution.setProblem(my_func, bounds, dimension, maximize=False)
   Solution.repair = op.repair_truncate
   X = Solution.initialize(n)
   for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
   [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
   while Solution.nfe < max_nfe and not my_func.final_target_hit:
     U = X
     #Round 1
@@ -20,12 +22,15 @@ def frk1_1f21(n, my_func, bounds, dimension, max_nfe):
     [Xi.getFitness() for Xi in X]
   return Solution
 
-def frk1_1f15(n, my_func, bounds, dimension, max_nfe):
+#21,9
+def frk1_1f15(my_func, bounds, dimension, max_nfe):
+  n = 200
   Solution.setProblem(my_func, bounds, dimension, maximize=False)
   Solution.repair = op.repair_random
   X = Solution.initialize(n)
   for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
   [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
   while Solution.nfe < max_nfe and not my_func.final_target_hit:
     U = X
     #Round 1
@@ -42,12 +47,15 @@ def frk1_1f15(n, my_func, bounds, dimension, max_nfe):
     [Xi.getFitness() for Xi in X]
   return Solution
 
-def frk1_1f01(n, my_func, bounds, dimension, max_nfe):
+#26,15
+def frk1_1f01(my_func, bounds, dimension, max_nfe):
+  n = 200
   Solution.setProblem(my_func, bounds, dimension, maximize=False)
   Solution.repair = op.repair_truncate
   X = Solution.initialize(n)
   for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
   [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
   while Solution.nfe < max_nfe and not my_func.final_target_hit:
     U = X
     #Round 1
@@ -64,12 +72,15 @@ def frk1_1f01(n, my_func, bounds, dimension, max_nfe):
     [Xi.getFitness() for Xi in X]
   return Solution
 
-def frk1_1f06(n, my_func, bounds, dimension, max_nfe):
+#22,0
+def frk1_1f06(my_func, bounds, dimension, max_nfe):
+  n = 100
   Solution.setProblem(my_func, bounds, dimension, maximize=False)
   Solution.repair = op.repair_truncate
   X = Solution.initialize(n)
   for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
   [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
   while Solution.nfe < max_nfe and not my_func.final_target_hit:
     U = X
     #Round 1
