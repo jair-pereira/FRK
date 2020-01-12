@@ -11,7 +11,7 @@ nfe = 1e+6
 repetitions = 10
 
 solver_list = iter([frk2_bf01]*15 + [frk2_bf06]*15 + [frk2_bf15]*15 + [frk2_bf21]*15)
-solver_list = iter([frk2_bf01]*1 + [frk2_bf06]*1 + [frk2_bf15]*1 + [frk2_bf21]*1)
+# solver_list = iter([frk2_bf01]*1 + [frk2_bf06]*1 + [frk2_bf15]*1 + [frk2_bf21]*1)
 
 
 for problem in suite:
