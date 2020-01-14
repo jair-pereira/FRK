@@ -1,0 +1,291 @@
+*******************************************************************************
+* irace: An implementation in R of Iterated Race
+* Version: 3.1.2112M
+* Copyright (C) 2010-2018
+* Manuel Lopez-Ibanez     <manuel.lopez-ibanez@manchester.ac.uk>
+* Jeremie Dubois-Lacoste  
+* Leslie Perez Caceres    <leslie.perez.caceres@ulb.ac.be>
+*
+* This is free software, and you are welcome to redistribute it under certain
+* conditions.  See the GNU General Public License for details. There is NO
+* WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*
+* irace builds upon previous code from the race package:
+*
+* race: Racing methods for the selection of the best
+* Copyright (C) 2003 Mauro Birattari
+*******************************************************************************
+# installed at: C:/Users/jjunior/Documents/R/win-library/3.4/irace
+# called with: -s scenario_cs15.txt
+# 2020-01-09 01:36:25 JST: Initialization
+# Elitist race
+# Elitist new instances: 1
+# Elitist limit: 2
+# nbIterations: 3
+# minNbSurvival: 3
+# nbParameters: 3
+# seed: 130836225
+# confidence level: 0.95
+# budget: 3000
+# mu: 5
+# deterministic: FALSE
+
+# 2020-01-09 01:36:25 JST: Iteration 1 of 3
+# experimentsUsedSoFar: 0
+# remainingBudget: 3000
+# currentBudget: 1000
+# nbConfigurations: 166
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+     . All alive configurations are elite and nothing is discarded
+
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|          1|        166|         47|    1093.427208|        166|00:01:19|   NA|  NA|    NA|
+|x|          2|        166|         77|    1117.738071|        332|00:01:17|+0.24|0.62|0.7493|
+|x|          3|        166|         97|    1123.385029|        498|00:01:16|+0.29|0.53|0.7079|
+|x|          4|        166|        155|    1132.992606|        664|00:01:17|+0.29|0.47|0.6910|
+|!|          5|         50|        155|    1130.003201|        830|00:01:16|-0.02|0.18|0.9912|
+|=|          6|         50|        155|    1127.041275|        880|00:00:23|+0.04|0.20|0.9224|
+|!|          7|         24|        138|    1129.939340|        930|00:00:23|-0.02|0.12|0.9764|
+|=|          8|         24|        141|    1130.257353|        954|00:00:12|+0.02|0.14|0.9384|
+|=|          9|         24|        160|    1133.282486|        978|00:00:11|+0.03|0.14|0.9226|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best-so-far configuration:         160    mean value:     1133.282486
+Description of the best-so-far configuration:
+    .ID.  n  k   pr .PARENT.
+160  160 50 25 0.85       NA
+
+# 2020-01-09 01:44:03 JST: Elite configurations (first number is the configuration ID; listed from best to worst according to the sum of ranks):
+     n  k   pr
+160 50 25 0.85
+97  50 25 1.00
+155 50 25 0.54
+# 2020-01-09 01:44:03 JST: Iteration 2 of 3
+# experimentsUsedSoFar: 978
+# remainingBudget: 2022
+# currentBudget: 1011
+# nbConfigurations: 103
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+     . All alive configurations are elite and nothing is discarded
+
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         10|        103|        180|    1084.905992|        103|00:01:04|   NA|  NA|    NA|
+|x|          3|        103|        180|    1098.812309|        203|00:01:02|+0.32|0.66|0.6471|
+|x|          4|        103|        180|    1106.336430|        303|00:00:57|+0.41|0.61|0.5775|
+|x|          8|        103|        180|    1117.602653|        403|00:00:45|+0.33|0.49|0.6512|
+|!|          1|         32|        229|    1117.220302|        503|00:00:46|-0.07|0.14|1.0185|
+|=|          6|         32|        178|    1124.547773|        532|00:00:13|-0.02|0.15|0.9717|
+|=|          9|         32|        229|    1122.619808|        561|00:00:13|-0.00|0.14|0.9628|
+|=|          5|         32|        178|    1129.042332|        590|00:00:13|-0.01|0.12|0.9678|
+|=|          7|         32|        178|    1129.224251|        619|00:00:13|+0.00|0.11|0.9570|
+|=|          2|         32|        180|    1126.869725|        648|00:00:15|+0.04|0.13|0.9230|
+|=|         11|         32|        171|    1127.717536|        680|00:00:16|+0.04|0.13|0.9224|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best-so-far configuration:         171    mean value:     1127.717536
+Description of the best-so-far configuration:
+    .ID.  n  k   pr .PARENT.
+171  171 50 25 0.79      160
+
+# 2020-01-09 01:50:06 JST: Elite configurations (first number is the configuration ID; listed from best to worst according to the sum of ranks):
+     n  k   pr
+171 50 25 0.79
+180 50 25 0.98
+236 50 25 0.91
+# 2020-01-09 01:50:06 JST: Iteration 3 of 3
+# experimentsUsedSoFar: 1658
+# remainingBudget: 1342
+# currentBudget: 1342
+# nbConfigurations: 114
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+     . All alive configurations are elite and nothing is discarded
+
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         12|        114|        371|    1085.142379|        114|00:00:57|   NA|  NA|    NA|
+|x|          1|        114|        333|    1104.978167|        225|00:00:54|+0.32|0.66|0.6105|
+|x|          8|        114|        371|    1110.870992|        336|00:01:10|+0.36|0.57|0.5850|
+|x|         11|        114|        333|    1119.272481|        447|00:01:17|+0.35|0.51|0.6170|
+|!|         10|         58|        333|    1123.296287|        558|00:01:11|-0.07|0.15|1.0410|
+|=|          2|         58|        333|    1121.587264|        613|00:00:27|-0.03|0.14|1.0024|
+|=|          5|         58|        332|    1126.241005|        668|00:00:27|+0.03|0.17|0.9387|
+|=|          9|         58|        371|    1117.966164|        723|00:00:28|+0.05|0.17|0.9285|
+|!|          6|         30|        371|    1118.257853|        778|00:00:27|-0.04|0.07|1.0035|
+|=|          7|         30|        371|    1120.651703|        805|00:00:13|-0.04|0.06|0.9989|
+|=|          4|         30|        371|    1124.711615|        832|00:00:13|-0.04|0.05|0.9992|
+|=|          3|         30|        321|    1128.634234|        859|00:00:14|-0.03|0.05|0.9926|
+|=|         13|         30|        269|    1126.888161|        889|00:00:14|-0.04|0.04|1.0030|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best-so-far configuration:         269    mean value:     1126.888161
+Description of the best-so-far configuration:
+    .ID.  n  k   pr .PARENT.
+269  269 50 25 0.89      180
+
+# 2020-01-09 01:58:26 JST: Elite configurations (first number is the configuration ID; listed from best to worst according to the sum of ranks):
+     n  k   pr
+269 50 25 0.89
+321 50 25 0.86
+332 50 25 0.80
+# 2020-01-09 01:58:27 JST: Iteration 4 of 4
+# experimentsUsedSoFar: 2547
+# remainingBudget: 453
+# currentBudget: 453
+# nbConfigurations: 35
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+     . All alive configurations are elite and nothing is discarded
+
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         14|         35|        386|    1110.360988|         35|00:00:18|   NA|  NA|    NA|
+|x|         10|         35|        400|    1118.042256|         67|00:00:17|+0.56|0.78|0.3880|
+|x|          7|         35|        400|    1116.691372|         99|00:00:17|+0.46|0.64|0.5388|
+|x|          1|         35|        400|    1122.903342|        131|00:00:16|+0.41|0.56|0.5147|
+|!|          2|         17|        332|    1124.753375|        163|00:00:23|-0.01|0.19|0.9261|
+|=|         13|         17|        269|    1129.418311|        177|00:00:08|-0.03|0.14|0.9475|
+|=|          8|         17|        385|    1129.328875|        191|00:00:07|-0.01|0.13|0.9358|
+|=|          6|         17|        385|    1131.021879|        205|00:00:07|-0.03|0.09|0.9612|
+|=|          4|         17|        389|    1125.254976|        219|00:00:07|+0.02|0.13|0.9137|
+|=|         12|         17|        385|    1127.367205|        233|00:00:08|+0.03|0.12|0.8997|
+|=|          9|         17|        385|    1126.487732|        247|00:00:07|+0.06|0.14|0.8731|
+|!|         11|         11|        385|    1125.505137|        261|00:00:07|-0.04|0.05|0.9287|
+|=|          3|         11|        385|    1126.431185|        269|00:00:04|-0.04|0.04|0.9265|
+|=|          5|         11|        385|    1126.799374|        277|00:00:04|-0.02|0.05|0.9045|
+|=|         15|         11|        385|    1128.483963|        288|00:00:06|-0.00|0.06|0.8901|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best-so-far configuration:         385    mean value:     1128.483963
+Description of the best-so-far configuration:
+    .ID.  n  k   pr .PARENT.
+385  385 50 25 0.91      321
+
+# 2020-01-09 02:01:11 JST: Elite configurations (first number is the configuration ID; listed from best to worst according to the sum of ranks):
+     n  k   pr
+385 50 25 0.91
+269 50 25 0.89
+389 50 25 0.73
+# 2020-01-09 02:01:11 JST: Iteration 5 of 5
+# experimentsUsedSoFar: 2835
+# remainingBudget: 165
+# currentBudget: 165
+# nbConfigurations: 13
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+     . All alive configurations are elite and nothing is discarded
+
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         16|         13|        389|    1080.490783|         13|00:00:07|   NA|  NA|    NA|
+|x|         11|         13|        418|    1108.232396|         23|00:00:05|+0.42|0.71|0.5322|
+|x|          2|         13|        418|    1094.939744|         33|00:00:05|+0.41|0.61|0.4646|
+|x|          7|         13|        418|    1099.620890|         43|00:00:05|+0.42|0.56|0.4513|
+|!|          1|          5|        418|    1104.953655|         53|00:00:05|-0.03|0.18|0.7986|
+|=|         14|          5|        418|    1108.474400|         55|00:00:02|-0.05|0.13|0.8147|
+|=|          8|          5|        418|    1110.906102|         57|00:00:02|-0.04|0.11|0.7920|
+|=|          9|          5|        418|    1115.788880|         59|00:00:02|-0.03|0.10|0.7987|
+|=|          6|          5|        418|    1115.409275|         61|00:00:02|+0.04|0.15|0.7479|
+|=|         15|          5|        418|    1117.601967|         63|00:00:02|+0.01|0.11|0.7813|
+|=|         10|          5|        418|    1122.724783|         65|00:00:02|-0.01|0.08|0.7960|
+|=|          5|          5|        418|    1124.683861|         67|00:00:02|-0.05|0.03|0.8352|
+|=|         13|          5|        385|    1129.512497|         69|00:00:02|-0.07|0.01|0.8523|
+|=|         12|          5|        385|    1129.694674|         71|00:00:02|-0.06|0.01|0.8430|
+|=|          3|          5|        269|    1128.204317|         73|00:00:02|-0.06|0.01|0.8347|
+|=|          4|          5|        389|    1124.371115|         75|00:00:02|-0.04|0.03|0.8188|
+|=|         17|          5|        389|    1124.236069|         80|00:00:03|-0.04|0.02|0.8185|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best-so-far configuration:         389    mean value:     1124.236069
+Description of the best-so-far configuration:
+    .ID.  n  k   pr .PARENT.
+389  389 50 25 0.73      269
+
+# 2020-01-09 02:02:07 JST: Elite configurations (first number is the configuration ID; listed from best to worst according to the sum of ranks):
+     n  k   pr
+389 50 25 0.73
+269 50 25 0.89
+385 50 25 0.91
+# 2020-01-09 02:02:07 JST: Iteration 6 of 6
+# experimentsUsedSoFar: 2915
+# remainingBudget: 85
+# currentBudget: 85
+# nbConfigurations: 7
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+     . All alive configurations are elite and nothing is discarded
+
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         18|          7|        389|    1111.684489|          7|00:00:03|   NA|  NA|    NA|
+|x|          6|          7|        389|    1117.913551|         11|00:00:02|+0.00|0.50|0.8615|
+|x|          9|          7|        389|    1122.224365|         15|00:00:02|+0.21|0.48|0.6455|
+|x|          5|          7|        389|    1118.851748|         19|00:00:02|+0.01|0.26|0.7774|
+|=|         14|          7|        389|    1120.967745|         23|00:00:02|-0.00|0.20|0.8178|
+|=|          8|          7|        389|    1120.702028|         27|00:00:03|-0.06|0.12|0.8762|
+|=|         13|          7|        389|    1125.312978|         31|00:00:02|-0.05|0.10|0.8740|
+|=|          7|          7|        389|    1126.769309|         35|00:00:02|-0.01|0.11|0.8492|
+|=|         10|          7|        385|    1127.273227|         39|00:00:02|+0.04|0.14|0.8134|
+|=|          2|          7|        389|    1124.760987|         43|00:00:02|+0.03|0.13|0.8226|
+|=|         11|          7|        389|    1125.540842|         47|00:00:02|+0.04|0.12|0.8321|
+|=|         15|          7|        269|    1128.026546|         51|00:00:02|-0.01|0.07|0.8651|
+|=|         16|          7|        389|    1123.326750|         55|00:00:02|+0.01|0.08|0.8486|
+|=|          1|          7|        385|    1129.785676|         59|00:00:02|-0.01|0.06|0.8619|
+|=|          3|          7|        269|    1128.827199|         63|00:00:02|+0.01|0.07|0.8521|
+|=|          4|          7|        389|    1122.854910|         67|00:00:02|+0.03|0.09|0.8276|
+|=|         12|          7|        269|    1126.684693|         71|00:00:02|+0.02|0.08|0.8468|
+|=|         17|          7|        269|    1127.425333|         75|00:00:02|+0.04|0.10|0.8311|
+|=|         19|          7|        269|    1127.041276|         82|00:00:03|+0.05|0.10|0.8213|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best-so-far configuration:         269    mean value:     1127.041276
+Description of the best-so-far configuration:
+    .ID.  n  k   pr .PARENT.
+269  269 50 25 0.89      180
+
+# 2020-01-09 02:03:02 JST: Elite configurations (first number is the configuration ID; listed from best to worst according to the sum of ranks):
+     n  k   pr
+269 50 25 0.89
+385 50 25 0.91
+389 50 25 0.73
+# 2020-01-09 02:03:02 JST: Stopped because there is not enough budget left to race more than the minimum (3)
+# You may either increase the budget or set 'minNbSurvival' to a lower value
+# Iteration: 7
+# nbIterations: 7
+# experimentsUsedSoFar: 2997
+# timeUsed: 0
+# remainingBudget: 3
+# currentBudget: 3
+# number of elites: 3
+# nbConfigurations: 3
+# Best configurations (first number is the configuration ID; listed from best to worst according to the sum of ranks):
+     n  k   pr
+269 50 25 0.89
+385 50 25 0.91
+389 50 25 0.73
+# Best configurations as commandlines (first number is the configuration ID; same order as above):
+269   50  25  0.89
+385   50  25  0.91
+389   50  25  0.73
