@@ -8,7 +8,6 @@ def frkb_bf21(my_func, bounds, dimension, max_nfe):
   X = Solution.initialize(n)
   for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
   [Xi.getFitness() for Xi in X]
-  Solution.updateHistory(X)
   while Solution.nfe < max_nfe and not my_func.final_target_hit:
     U = X
     #Round 1
@@ -28,7 +27,6 @@ def frkb_bf01(my_func, bounds, dimension, max_nfe):
   X = Solution.initialize(n)
   for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
   [Xi.getFitness() for Xi in X]
-  Solution.updateHistory(X)
   while Solution.nfe < max_nfe and not my_func.final_target_hit:
     U = X
     #Round 1
