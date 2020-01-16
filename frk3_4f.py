@@ -1,7 +1,7 @@
 from metaheuristic import *
 
 #19,4
-def frk3_4f15(my_func, bounds, dimensiomax_nfe):
+def frk3_4f15(my_func, bounds, dimension, max_nfe):
   n = op.generate_int(min=20, max=1200)
   Solution.setProblem(my_func, bounds, dimension, maximize=False)
   Solution.repair = op.repair_random
@@ -33,7 +33,7 @@ def frk3_4f15(my_func, bounds, dimensiomax_nfe):
   return Solution
 
 #16,17
-def frk3_4f01(my_func, bounds, dimensiomax_nfe):
+def frk3_4f01(my_func, bounds, dimension, max_nfe):
   n = op.generate_int(min=20, max=1200)
   Solution.setProblem(my_func, bounds, dimension, maximize=False)
   Solution.repair = op.repair_truncate
@@ -64,7 +64,7 @@ def frk3_4f01(my_func, bounds, dimensiomax_nfe):
   return Solution
 
 #16,3
-def frk3_4f06(my_func, bounds, dimensiomax_nfe):
+def frk3_4f06(my_func, bounds, dimension, max_nfe):
   n = op.generate_int(min=20, max=1200)
   Solution.setProblem(my_func, bounds, dimension, maximize=False)
   Solution.repair = op.repair_random
@@ -96,7 +96,7 @@ def frk3_4f06(my_func, bounds, dimensiomax_nfe):
   return Solution
 
 #20,7
-def frk3_4f21(my_func, bounds, dimensiomax_nfe):
+def frk3_4f21(my_func, bounds, dimension, max_nfe):
   n = op.generate_int(min=20, max=1200)
   Solution.setProblem(my_func, bounds, dimension, maximize=False)
   Solution.repair = op.repair_truncate
