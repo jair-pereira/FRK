@@ -2,7 +2,7 @@ from metaheuristic import *
 import pickle
 
 #16,8
-def frk2_bf01(my_func, bounds, dimensiomax_nfe):
+def frk2_bf01(my_func, bounds, dimension, max_nfe):
     n = op.generate_int(min=20, max=1200)
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_truncate
@@ -35,7 +35,7 @@ def frk2_bf01(my_func, bounds, dimensiomax_nfe):
     return Solution
 
 #21,1
-def frk2_bf06(my_func, bounds, dimensiomax_nfe):
+def frk2_bf06(my_func, bounds, dimension, max_nfe):
     n = op.generate_int(min=20, max=1200)
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_random
@@ -69,7 +69,7 @@ def frk2_bf06(my_func, bounds, dimensiomax_nfe):
     return Solution
 
 #30,0
-def frk2_bf15(my_func, bounds, dimensiomax_nfe):
+def frk2_bf15(my_func, bounds, dimension, max_nfe):
     n = op.generate_int(min=20, max=1200)
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_truncate
@@ -108,7 +108,7 @@ def frk2_bf15(my_func, bounds, dimensiomax_nfe):
     return Solution
 
 #14,10
-def frk2_bf21(my_func, bounds, dimensiomax_nfe):
+def frk2_bf21(my_func, bounds, dimension, max_nfe):
     n = op.generate_int(min=20, max=1200)
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_truncate
