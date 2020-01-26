@@ -26,7 +26,7 @@ for problem in suite:
             print(i, end=" ")
             S = solver(problem, (problem.lower_bounds[0], problem.upper_bounds[0]), problem.dimension, nfe)
 
-            fw = open("frk2_bf21_"+str(problem.id)+"_r"+i+".pkl", "wb")
+            fw = open("frk2_bf21_"+str(problem.id)+"_r"+str(i)+".pkl", "wb")
             pickle.dump(S, fw)
             fw.close()
 
