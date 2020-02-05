@@ -1,4 +1,6 @@
-<b>observation: </b> This repository contains the experiment setup for the paper submitted to the CEC 2020
+# Note
+--------------
+This repository contains the experiment setup for the paper submitted to the CEC 2020.
 
 # Introduction
 --------------
