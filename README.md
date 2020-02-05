@@ -13,6 +13,6 @@ Python 3.6 or higher, matplotlib, numpy, pandas, and [PonyGE2](https://github.co
 
 # Running
 ---------------
-To perform the training you need to to run [PonyGE2](https://github.com/PonyGE/PonyGE2) (check for the link for details). It is necessary to create a parameter and fitness files. Refer to the sample files in PonyGE2/parameters and PonyGE2/src/fitness. The sample experiments use the [COCO benchmark](https://github.com/numbbo/coco). 
+To perform the training you need to to run [PonyGE2](https://github.com/PonyGE/PonyGE2) (check for details in the link). It is necessary to create a parameter and fitness files. Refer to the sample files in PonyGE2/parameters and PonyGE2/src/fitness. The sample experiments use the [COCO benchmark](https://github.com/numbbo/coco). 
 
 After the training, you need to run the processing.py script to gather the best code. Some other processing tools are available.
