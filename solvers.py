@@ -76,3 +76,33 @@ def cs(n, my_func, bounds, dimension, max_nfe, pr, k):
 
         [Xi.getFitness() for Xi in X]
     return Solution
+
+def cs2(n, problem, bounds, dimension, max_nfe, alpha, beta, pr, kperc):
+    Solution.setProblem(problem, bounds, dimension, maximize=False)
+    Solution.repair = op.repair_random
+    op.levyflight_step = op.levyflight_step_mantegnas
+    X = Solution.initialize(n)
+    [Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)) for Xi in X]
+    [Xi.getFitness() for Xi in X]
+
+    while Solution.nfe < max_nfe and not problem.final_target_hit:
+        #Round 1
+        S1 = op.select_random(X)
+        S2 = op.select_random(X)
+        for Xa, Xb in zip(S1[:,0], S2[:,0]):
+            ## levy flyght
+            U = Solution.initialize(1)[0]
+            u = Xa.x + alpha * op.levyflight_step(Xa.x.shape, beta)
+            U.setX(u)
+
+            ## replace
+            if U.getFitness() < Xb.getFitness():
+                Xb.setX(U.x)
+                Xb.fitness = U.getFitness()
+                Xb.updatePBest()
+                Solution.updateBest(Xb)
+
+        ## drop
+        X = op.drop_worst( S2[:,0], pr, int(n*kperc))
+        [Xi.getFitness() for Xi in X]
+    return Solution
