@@ -1,6 +1,6 @@
 # Introduction
 --------------
-We proposed a framework based on grammatical evolution (GE) to automatically generate swarm intelligence (SI) algorithms given a training instance.
+This is a framework based on grammatical evolution (GE) to automatically generate swarm intelligence (SI) algorithms given a training instance.
 
 Such framework is necessary because the performance of an algorithm depends on the target problem, and it is difficult to know a priori what algorithm and what parameters will perform best on a new problem.
 
