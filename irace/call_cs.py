@@ -12,7 +12,6 @@ def main(args):
     parser.add_argument('--n'    , dest='n'    , type=float, help="Integer   : Population size")
     parser.add_argument('--alpha', dest='alpha', type=float, help="Float   : Stepsize")
     parser.add_argument('--beta' , dest='beta' , type=float, help="Float   : Levy stepsize")
-    parser.add_argument('--n'    , dest='n'    , type=float, help="Integer   : Population size")
     parser.add_argument('--kperc', dest='kperc'    , type=float, help="Interger  : CS.dropworst size")
     parser.add_argument('--pr'   , dest='pr'   , type=float, help="Real value: CS.dropworst probability")
     parser.add_argument('--bbob' , dest='bbob' , type=str  , help="String    : BBOB suite e.g.:function_indices:1 dimensions:2 instance_indices:1")
